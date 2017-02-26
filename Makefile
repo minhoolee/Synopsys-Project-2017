@@ -6,8 +6,28 @@
 
 BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
 PROJECT_NAME = Synopsys Project 2016
-PYTHON_INTERPRETER = python3
+PYTHON_INTERPRETER = python
+TENSORBOARD = tensorboard
 IS_ANACONDA=$(shell python -c "import sys;t=str('anaconda' in sys.version.lower() or 'continuum' in sys.version.lower());sys.stdout.write(t)")
+MODELS = src/models
+VISUALIZATION = src/visualization
+LOGS_DIR = models/run_logs
+MODEL_NAME = ${MODEL}
+MODEL_FUNC = ${MODEL_FUNC}
+MODEL_ARGS_STR = ${MODEL_ARGS}
+ADDITIONAL_ARGS = ${ARGS}
+WEIGHTS_DIR = models/weights
+JSON_DIR = models/json
+YAML_DIR = models/yaml
+CSV_DIR = models/csv
+IMAGES_DIR = reports/figures
+TENSORBOARD_DIR = models/run_logs/tensorboard
+UNIT_TESTS = src/unit_tests/*.py
+
+# Only writes to txt file if the argument "--test-only" is not set
+PRINT_TO_TXT= if !(echo $(ADDITIONAL_ARGS) | grep -q "test-only"); then \
+                  cat .tmp | col -b >> "$(LOGS_DIR)/$(MODEL_NAME).txt"; \
+              fi
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -60,9 +80,78 @@ test_environment:
 	$(PYTHON_INTERPRETER) test_environment.py
 
 #################################################################################
+# USER DEFINED ENVIRONMENTS                                                     #
+#################################################################################
+
+PYTHON2.7_ENV:
+	source activate python2.7
+
+PYTHON3.5_ENV:
+	workon python3.5;
+
+#################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
 
+# Interpret special characters like backspace (^H) with `col -b`
+# and write (unbuffered) run output to a txt file with the specified model name
+train: 
+	@$(PYTHON_INTERPRETER) -u $(MODELS)/train_model.py \
+		$(MODEL_FUNC) \
+		$(WEIGHTS_DIR)/$(MODEL_NAME).hdf5 \
+		$(JSON_DIR)/$(MODEL_NAME).json \
+		$(YAML_DIR)/$(MODEL_NAME).yaml \
+		$(CSV_DIR)/$(MODEL_NAME).csv \
+		$(TENSORBOARD_DIR) \
+		$(MODEL_ARGS_STR) \
+		$(ADDITIONAL_ARGS) | tee .tmp; \
+		$(PRINT_TO_TXT)
+
+test:
+	@$(PYTHON_INTERPRETER) -u $(MODELS)/test_model.py \
+		$(MODEL_FUNC) \
+		$(WEIGHTS_DIR)/$(MODEL_NAME).hdf5 \
+		$(JSON_DIR)/$(MODEL_NAME).json \
+		$(YAML_DIR)/$(MODEL_NAME).yaml \
+		$(CSV_DIR)/$(MODEL_NAME).csv \
+		$(TENSORBOARD_DIR) \
+		$(MODEL_ARGS_STR) \
+		$(ADDITIONAL_ARGS) | tee .tmp;
+
+# train_conv_net: 
+# 	MODEL_FUNC="conv_net" \
+# 	$(MAKE) train \
+# 	$(MAKE) plot_train_valid
+#
+# train_danq:
+# 	MODEL_FUNC="DanQ" \
+# 	$(MAKE) train \
+# 	$(MAKE) plot_train_valid
+
+# Execute all the python unit tests
+unit_tests:
+	@for f in $(UNIT_TESTS); do \
+		python $$f; \
+	done
+
+# Reformat any badly formatted (but valid) JSON or YAML representations
+# of a Keras model
+resave_json_yaml:
+	@$(PYTHON_INTERPRETER) $(MODELS)/resave_json_yaml.py \
+		"$(JSON_DIR)/$(MODEL_NAME).json" \
+		"$(YAML_DIR)/$(MODEL_NAME).yaml"
+
+# TODO: set up tox
+
+# Plot the training and validation losses and accuracies
+plot_train_valid:
+	@$(PYTHON_INTERPRETER) $(VISUALIZATION)/plot_train_valid.py \
+		"$(CSV_DIR)/$(MODEL_NAME).csv" \
+		"$(IMAGES_DIR)/losses/$(MODEL_NAME)_loss.png" \
+		"$(IMAGES_DIR)/accuracies/$(MODEL_NAME)_acc.png"
+
+tensorboard:
+	$(TENSORBOARD) --logdir=$(LOGS_DIR)/tensorboard
 
 
 #################################################################################
