@@ -3,7 +3,7 @@ Synopsys Project 2016-2017
 
 Leveraging Deep Learning to Derive De Novo Epigenetic Mechanisms Accounting for Missing Heritability in Type II Diabetes Mellitus
 
-Download [processed data from DeepSEA](http://deepsea.princeton.edu/media/code/deepsea_train_bundle.v0.9.tar.gz) and move them to `/data/processed/`
+Download [processed data from DeepSEA](http://deepsea.princeton.edu/media/code/deepsea_train_bundle.v0.9.tar.gz) and move them to `data/processed/`
 
 
 Project Organization
@@ -21,6 +21,10 @@ Project Organization
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
+    │   ├── csv            <- CSV logs of epoch and batch runs
+    │   ├── json           <- JSON representation of the models
+    │   ├── weights        <- Best weights for the models
+    │   └── yaml           <- YAML representation of the models
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         the creator's initials, and a short `-` delimited description, e.g.
@@ -43,11 +47,14 @@ Project Organization
     │   ├── features       <- Scripts to turn raw data into features for modeling
     │   │   └── build_features.py
     │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
+    │   ├── models         <- Scripts to train and test models and then use trained models to make
     │   │   │                 predictions
     │   │   ├── predict_model.py
+    │   │   ├── test_model.py
     │   │   └── train_model.py
-    │   │
+    │   │
+    │   │── unit_tests     <- Scripts to test each unit of the other scripts
+    │   │
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py
     │
