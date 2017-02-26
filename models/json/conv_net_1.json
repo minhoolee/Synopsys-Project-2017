@@ -1,0 +1,174 @@
+{
+  "class_name": "Sequential",
+  "config": [
+    {
+      "class_name": "Convolution1D",
+      "config": {
+        "b_constraint": null,
+        "activity_regularizer": null,
+        "activation": "relu",
+        "W_regularizer": null,
+        "filter_length": 3,
+        "bias": true,
+        "border_mode": "valid",
+        "batch_input_shape": [
+          null,
+          1000,
+          4
+        ],
+        "subsample_length": 1,
+        "b_regularizer": null,
+        "init": "lecun_uniform",
+        "nb_filter": 256,
+        "W_constraint": null,
+        "input_length": 1000,
+        "name": "convolution1d_1",
+        "input_dtype": "float32",
+        "trainable": true,
+        "input_dim": 4
+      }
+    },
+    {
+      "class_name": "MaxPooling1D",
+      "config": {
+        "border_mode": "valid",
+        "stride": 2,
+        "name": "maxpooling1d_1",
+        "pool_length": 2,
+        "trainable": true
+      }
+    },
+    {
+      "class_name": "Dropout",
+      "config": {
+        "name": "dropout_1",
+        "trainable": true,
+        "p": 0.7
+      }
+    },
+    {
+      "class_name": "Convolution1D",
+      "config": {
+        "b_constraint": null,
+        "activity_regularizer": null,
+        "activation": "relu",
+        "W_regularizer": null,
+        "filter_length": 5,
+        "bias": true,
+        "border_mode": "valid",
+        "batch_input_shape": [
+          null,
+          1000,
+          4
+        ],
+        "subsample_length": 1,
+        "b_regularizer": null,
+        "init": "lecun_uniform",
+        "nb_filter": 512,
+        "W_constraint": null,
+        "input_length": 1000,
+        "name": "convolution1d_2",
+        "input_dtype": "float32",
+        "trainable": true,
+        "input_dim": 4
+      }
+    },
+    {
+      "class_name": "Convolution1D",
+      "config": {
+        "b_constraint": null,
+        "activity_regularizer": null,
+        "activation": "relu",
+        "W_regularizer": null,
+        "filter_length": 5,
+        "bias": true,
+        "border_mode": "valid",
+        "batch_input_shape": [
+          null,
+          1000,
+          4
+        ],
+        "subsample_length": 1,
+        "b_regularizer": null,
+        "init": "lecun_uniform",
+        "nb_filter": 512,
+        "W_constraint": null,
+        "input_length": 1000,
+        "name": "convolution1d_3",
+        "input_dtype": "float32",
+        "trainable": true,
+        "input_dim": 4
+      }
+    },
+    {
+      "class_name": "MaxPooling1D",
+      "config": {
+        "border_mode": "valid",
+        "stride": 2,
+        "name": "maxpooling1d_2",
+        "pool_length": 2,
+        "trainable": true
+      }
+    },
+    {
+      "class_name": "Flatten",
+      "config": {
+        "name": "flatten_1",
+        "trainable": true
+      }
+    },
+    {
+      "class_name": "Dense",
+      "config": {
+        "b_constraint": null,
+        "activation": "relu",
+        "bias": true,
+        "batch_input_shape": [
+          null,
+          4096
+        ],
+        "W_regularizer": null,
+        "b_regularizer": null,
+        "trainable": true,
+        "init": "glorot_uniform",
+        "W_constraint": null,
+        "output_dim": 1024,
+        "activity_regularizer": null,
+        "input_dtype": "float32",
+        "name": "dense_1",
+        "input_dim": 125440
+      }
+    },
+    {
+      "class_name": "Dropout",
+      "config": {
+        "name": "dropout_2",
+        "trainable": true,
+        "p": 0.5
+      }
+    },
+    {
+      "class_name": "Dense",
+      "config": {
+        "b_constraint": null,
+        "activation": "sigmoid",
+        "bias": true,
+        "batch_input_shape": [
+          null,
+          1024
+        ],
+        "W_regularizer": null,
+        "b_regularizer": null,
+        "trainable": true,
+        "init": "glorot_uniform",
+        "W_constraint": null,
+        "output_dim": 919,
+        "activity_regularizer": null,
+        "input_dtype": "float32",
+        "name": "dense_2",
+        "input_dim": 1024
+      }
+    }
+  ],
+  "keras_version": "1.2.1"
+}

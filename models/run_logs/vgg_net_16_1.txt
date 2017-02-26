@@ -1,0 +1,210 @@
+Retrieving train, validation, and test data
+Retrieving train, validation, and test data
+Retrieving train, validation, and test data
+Retrieving train, validation, and test data
+Retrieving train, validation, and test data
+test imagenet
+Retrieving train, validation, and test data
+test imagenet
+Retrieving train, validation, and test data
+test imagenet
+another arg: imagenet
+Building the model
+Retrieving train, validation, and test data
+test imagenet
+another arg: imagenet
+Retrieving train, validation, and test data
+test imagenet
+another arg: imagenet
+Retrieving train, validation, and test data
+test none
+another arg: none
+Retrieving train, validation, and test data
+test None
+another arg: None
+Retrieving train, validation, and test data
+another arg: None
+<class 'str'>
+Retrieving train, validation, and test data
+another arg: None
+<class 'str'>
+Building the model
+Retrieving train, validation, and test data
+another arg: None
+Retrieving train, validation, and test data
+Creating model with vgg_net_16(
+None,
+)
+Retrieving train, validation, and test data
+Creating model with vgg_net_16(None, )
+Retrieving train, validation, and test data
+Retrieving train, validation, and test data
+Creating model with vgg_net_16(1
+)
+Retrieving train, validation, and test data
+Creating model with vgg_net_16(
+Retrieving train, validation, and test data
+Creating model with vgg_net_16(None
+)
+Retrieving train, validation, and test data
+Creating model with vgg_net_16(None)
+Retrieving train, validation, and test data
+Retrieving train, validation, and test data
+Retrieving train, validation, and test data
+Retrieving train, validation, and test data
+Retrieving train, validation, and test data
+Retrieving train, validation, and test data
+test()
+
+Creating model from None
+
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from
+test()
+
+
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from
+Retrieving train, validation, and test data
+
+Creating model from
+test(None)
+Retrieving train, validation, and test data
+
+Creating model from
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+<class 'NoneType'>
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(imagenet)
+<class 'str'>
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+<class 'NoneType'>
+<class 'str'>
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+<class 'tuple'>
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+<class 'str'>
+<class 'NoneType'>
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+None
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(imagenet)
+imagenet
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from
+vgg_net_16(None)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+test
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+test
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+test
+test2
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(None)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(imagenet)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(imagenet)
+Building the model
+Retrieving train, validation, and test data
+
+Creating model from vgg_net_16(imagenet)
+Building the model
+K.image_dim_ordering: th
+Downloading data from https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg16_weights_th_dim_ordering_th_kernels.h5

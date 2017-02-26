@@ -1,0 +1,28 @@
+The date is 01/31/2017
+The time is 05:08:24
+Saving weights to models/weights/conv_net_2.hdf5 and epoch logs to logs/half_set/conv_net_2.csv
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+2199600/2200000 [============================>.] - ETA: 1s - loss: 0.0876 - acc: 0.9786Epoch 00000: val_loss improved from inf to 0.08162, saving model to models/weights/conv_net_2.hdf5
+2200000/2200000 [==============================] - 7944s - loss: 0.0876 - acc: 0.9786 - val_loss: 0.0816 - val_acc: 0.9805
+Epoch 2/70
+2199600/2200000 [============================>.] - ETA: 1s - loss: 0.0824 - acc: 0.9789Epoch 00001: val_loss did not improve
+2200000/2200000 [==============================] - 7604s - loss: 0.0824 - acc: 0.9789 - val_loss: 0.0873 - val_acc: 0.9805
+Epoch 3/70
+2199600/2200000 [============================>.] - ETA: 1s - loss: 0.0819 - acc: 0.9789Epoch 00002: val_loss did not improve
+2200000/2200000 [==============================] - 7604s - loss: 0.0819 - acc: 0.9789 - val_loss: 0.0910 - val_acc: 0.9805
+Epoch 4/70
+2199600/2200000 [============================>.] - ETA: 1s - loss: 0.0817 - acc: 0.9790Epoch 00003: val_loss did not improve
+2200000/2200000 [==============================] - 7605s - loss: 0.0817 - acc: 0.9790 - val_loss: 0.0936 - val_acc: 0.9805
+Epoch 5/70
+2199600/2200000 [============================>.] - ETA: 1s - loss: 0.0815 - acc: 0.9790Epoch 00004: val_loss did not improve
+2200000/2200000 [==============================] - 8242s - loss: 0.0815 - acc: 0.9790 - val_loss: 0.0969 - val_acc: 0.9805
+Epoch 6/70
+2199600/2200000 [============================>.] - ETA: 1s - loss: 0.0813 - acc: 0.9790Epoch 00005: val_loss did not improve
+2200000/2200000 [==============================] - 8306s - loss: 0.0813 - acc: 0.9790 - val_loss: 0.0972 - val_acc: 0.9805
+Epoch 7/70
+2199600/2200000 [============================>.] - ETA: 1s - loss: 0.0812 - acc: 0.9790Epoch 00006: val_loss did not improve
+2200000/2200000 [==============================] - 8300s - loss: 0.0812 - acc: 0.9790 - val_loss: 0.0975 - val_acc: 0.9805
+Epoch 00006: early stopping
+455024/455024 [==============================] - 571s
+[0.103424309374281, 0.97944770659855129]

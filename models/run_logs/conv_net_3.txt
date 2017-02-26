@@ -1,0 +1,9 @@
+Loading data
+Building the model
+Compiling model
+Running at most 70 epochs
+The date is 02/03/2017
+The time is 08:18:36
+Saving weights to models/weights/conv_net_3.hdf5 and epoch logs to logs/half_set/conv_net_3.csv
+455024/455024 [==============================] - 961s 0ssss
+[0.33126389292200459, 0.97944770659855129]

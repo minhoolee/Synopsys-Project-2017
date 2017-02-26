@@ -1,0 +1,393 @@
+{
+  "class_name": "Sequential",
+  "keras_version": "1.2.1",
+  "config": [
+    {
+      "class_name": "Convolution1D",
+      "config": {
+        "b_constraint": null,
+        "border_mode": "valid",
+        "input_dtype": "float32",
+        "bias": true,
+        "nb_filter": 64,
+        "trainable": true,
+        "subsample_length": 1,
+        "W_constraint": null,
+        "filter_length": 3,
+        "W_regularizer": null,
+        "init": "he_normal",
+        "activation": "linear",
+        "input_dim": 4,
+        "b_regularizer": null,
+        "input_length": 1000,
+        "name": "convolution1d_1",
+        "batch_input_shape": [
+          null,
+          1000,
+          4
+        ],
+        "activity_regularizer": null
+      }
+    },
+    {
+      "class_name": "PReLU",
+      "config": {
+        "trainable": true,
+        "name": "prelu_1",
+        "init": "zero"
+      }
+    },
+    {
+      "class_name": "BatchNormalization",
+      "config": {
+        "epsilon": 0.001,
+        "momentum": 0.99,
+        "trainable": true,
+        "name": "batchnormalization_1",
+        "mode": 0,
+        "gamma_regularizer": null,
+        "axis": -1,
+        "beta_regularizer": null
+      }
+    },
+    {
+      "class_name": "Convolution1D",
+      "config": {
+        "b_constraint": null,
+        "border_mode": "valid",
+        "bias": true,
+        "nb_filter": 64,
+        "trainable": true,
+        "subsample_length": 1,
+        "W_constraint": null,
+        "filter_length": 3,
+        "W_regularizer": null,
+        "init": "he_normal",
+        "activation": "linear",
+        "input_dim": null,
+        "b_regularizer": null,
+        "input_length": null,
+        "name": "convolution1d_2",
+        "activity_regularizer": null
+      }
+    },
+    {
+      "class_name": "PReLU",
+      "config": {
+        "trainable": true,
+        "name": "prelu_2",
+        "init": "zero"
+      }
+    },
+    {
+      "class_name": "BatchNormalization",
+      "config": {
+        "epsilon": 0.001,
+        "momentum": 0.99,
+        "trainable": true,
+        "name": "batchnormalization_2",
+        "mode": 0,
+        "gamma_regularizer": null,
+        "axis": -1,
+        "beta_regularizer": null
+      }
+    },
+    {
+      "class_name": "MaxPooling1D",
+      "config": {
+        "trainable": true,
+        "stride": 2,
+        "border_mode": "valid",
+        "name": "maxpooling1d_1",
+        "pool_length": 2
+      }
+    },
+    {
+      "class_name": "Convolution1D",
+      "config": {
+        "b_constraint": null,
+        "border_mode": "valid",
+        "bias": true,
+        "nb_filter": 128,
+        "trainable": true,
+        "subsample_length": 1,
+        "W_constraint": null,
+        "filter_length": 3,
+        "W_regularizer": null,
+        "init": "he_normal",
+        "activation": "linear",
+        "input_dim": null,
+        "b_regularizer": null,
+        "input_length": null,
+        "name": "convolution1d_3",
+        "activity_regularizer": null
+      }
+    },
+    {
+      "class_name": "PReLU",
+      "config": {
+        "trainable": true,
+        "name": "prelu_3",
+        "init": "zero"
+      }
+    },
+    {
+      "class_name": "BatchNormalization",
+      "config": {
+        "epsilon": 0.001,
+        "momentum": 0.99,
+        "trainable": true,
+        "name": "batchnormalization_3",
+        "mode": 0,
+        "gamma_regularizer": null,
+        "axis": -1,
+        "beta_regularizer": null
+      }
+    },
+    {
+      "class_name": "Dropout",
+      "config": {
+        "trainable": true,
+        "p": 0.2,
+        "name": "dropout_1"
+      }
+    },
+    {
+      "class_name": "Convolution1D",
+      "config": {
+        "b_constraint": null,
+        "border_mode": "valid",
+        "bias": true,
+        "nb_filter": 128,
+        "trainable": true,
+        "subsample_length": 1,
+        "W_constraint": null,
+        "filter_length": 3,
+        "W_regularizer": null,
+        "init": "he_normal",
+        "activation": "linear",
+        "input_dim": null,
+        "b_regularizer": null,
+        "input_length": null,
+        "name": "convolution1d_4",
+        "activity_regularizer": null
+      }
+    },
+    {
+      "class_name": "PReLU",
+      "config": {
+        "trainable": true,
+        "name": "prelu_4",
+        "init": "zero"
+      }
+    },
+    {
+      "class_name": "BatchNormalization",
+      "config": {
+        "epsilon": 0.001,
+        "momentum": 0.99,
+        "trainable": true,
+        "name": "batchnormalization_4",
+        "mode": 0,
+        "gamma_regularizer": null,
+        "axis": -1,
+        "beta_regularizer": null
+      }
+    },
+    {
+      "class_name": "MaxPooling1D",
+      "config": {
+        "trainable": true,
+        "stride": 2,
+        "border_mode": "valid",
+        "name": "maxpooling1d_2",
+        "pool_length": 2
+      }
+    },
+    {
+      "class_name": "Dropout",
+      "config": {
+        "trainable": true,
+        "p": 0.2,
+        "name": "dropout_2"
+      }
+    },
+    {
+      "class_name": "Convolution1D",
+      "config": {
+        "b_constraint": null,
+        "border_mode": "valid",
+        "bias": true,
+        "nb_filter": 256,
+        "trainable": true,
+        "subsample_length": 1,
+        "W_constraint": null,
+        "filter_length": 5,
+        "W_regularizer": null,
+        "init": "he_normal",
+        "activation": "linear",
+        "input_dim": null,
+        "b_regularizer": null,
+        "input_length": null,
+        "name": "convolution1d_5",
+        "activity_regularizer": null
+      }
+    },
+    {
+      "class_name": "PReLU",
+      "config": {
+        "trainable": true,
+        "name": "prelu_5",
+        "init": "zero"
+      }
+    },
+    {
+      "class_name": "BatchNormalization",
+      "config": {
+        "epsilon": 0.001,
+        "momentum": 0.99,
+        "trainable": true,
+        "name": "batchnormalization_5",
+        "mode": 0,
+        "gamma_regularizer": null,
+        "axis": -1,
+        "beta_regularizer": null
+      }
+    },
+    {
+      "class_name": "Dropout",
+      "config": {
+        "trainable": true,
+        "p": 0.2,
+        "name": "dropout_3"
+      }
+    },
+    {
+      "class_name": "Convolution1D",
+      "config": {
+        "b_constraint": null,
+        "border_mode": "valid",
+        "bias": true,
+        "nb_filter": 256,
+        "trainable": true,
+        "subsample_length": 1,
+        "W_constraint": null,
+        "filter_length": 5,
+        "W_regularizer": null,
+        "init": "he_normal",
+        "activation": "linear",
+        "input_dim": null,
+        "b_regularizer": null,
+        "input_length": null,
+        "name": "convolution1d_6",
+        "activity_regularizer": null
+      }
+    },
+    {
+      "class_name": "PReLU",
+      "config": {
+        "trainable": true,
+        "name": "prelu_6",
+        "init": "zero"
+      }
+    },
+    {
+      "class_name": "MaxPooling1D",
+      "config": {
+        "trainable": true,
+        "stride": 2,
+        "border_mode": "valid",
+        "name": "maxpooling1d_3",
+        "pool_length": 2
+      }
+    },
+    {
+      "class_name": "Flatten",
+      "config": {
+        "trainable": true,
+        "name": "flatten_1"
+      }
+    },
+    {
+      "class_name": "Dense",
+      "config": {
+        "b_constraint": null,
+        "W_regularizer": null,
+        "input_dtype": "float32",
+        "bias": true,
+        "W_constraint": null,
+        "trainable": true,
+        "output_dim": 1024,
+        "b_regularizer": null,
+        "init": "he_normal",
+        "activation": "linear",
+        "input_dim": 30464,
+        "name": "dense_1",
+        "batch_input_shape": [
+          null,
+          4096
+        ],
+        "activity_regularizer": null
+      }
+    },
+    {
+      "class_name": "PReLU",
+      "config": {
+        "trainable": true,
+        "name": "prelu_7",
+        "init": "zero"
+      }
+    },
+    {
+      "class_name": "BatchNormalization",
+      "config": {
+        "epsilon": 0.001,
+        "momentum": 0.99,
+        "trainable": true,
+        "name": "batchnormalization_6",
+        "mode": 0,
+        "gamma_regularizer": null,
+        "axis": -1,
+        "beta_regularizer": null
+      }
+    },
+    {
+      "class_name": "Dropout",
+      "config": {
+        "trainable": true,
+        "p": 0.5,
+        "name": "dropout_4"
+      }
+    },
+    {
+      "class_name": "Dense",
+      "config": {
+        "b_constraint": null,
+        "W_regularizer": null,
+        "input_dtype": "float32",
+        "bias": true,
+        "W_constraint": null,
+        "trainable": true,
+        "output_dim": 919,
+        "b_regularizer": null,
+        "init": "he_normal",
+        "activation": "linear",
+        "input_dim": 1024,
+        "name": "dense_2",
+        "batch_input_shape": [
+          null,
+          1024
+        ],
+        "activity_regularizer": null
+      }
+    },
+    {
+      "class_name": "Activation",
+      "config": {
+        "trainable": true,
+        "name": "activation_1",
+        "activation": "sigmoid"
+      }
+    }
+  ]
+}

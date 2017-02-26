@@ -1,0 +1,241 @@
+
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Loading weights if they exist
+
+Running at most 70 epochs
+The date is 02/05/2017
+The time is 11:22:00
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:11:03
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:12:16
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:18:00
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:19:05
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:20:51
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:23:56 AM
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:25:36 AM
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:26:46 AM
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:28:13 AM
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:29:21 AM
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models in json and yaml format to models/json/conv_net_7.json and  models/yaml/conv_net_7.yaml
+Saving weights to models/weights/conv_net_7.hdf5 and epoch logs to logs/half_set/conv_net_7.csv
+Saving models/json/conv_net_7.json to models/json/conv_net_7.json.old
+Saving models/yaml/conv_net_7.yaml to models/yaml/conv_net_7.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_7.csv to logs/half_set/conv_net_7.csv.old
+
+Running at most 70 epochs
+The date is 02/06/2017
+The time is 12:32:24 AM
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.07333--acc::0.9791Epoch 00000: val_loss improved from inf to 0.05961, saving model to models/weights/conv_net_7.hdf5
+2200000/2200000 [==============================] - 5453s - loss: 0.0733 - acc: 0.9791 - val_loss: 0.0596 - val_acc: 0.9825
+Epoch 2/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06699--acc::0.9801Epoch 00001: val_loss improved from 0.05961 to 0.05947, saving model to models/weights/conv_net_7.hdf5
+2200000/2200000 [==============================] - 5449s - loss: 0.0669 - acc: 0.9801 - val_loss: 0.0595 - val_acc: 0.9826
+Epoch 3/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06433--acc::0.9805Epoch 00002: val_loss improved from 0.05947 to 0.05853, saving model to models/weights/conv_net_7.hdf5
+2200000/2200000 [==============================] - 5451s - loss: 0.0643 - acc: 0.9805 - val_loss: 0.0585 - val_acc: 0.9826
+Epoch 4/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06211--acc::0.9810Epoch 00003: val_loss did not improve
+2200000/2200000 [==============================] - 5450s - loss: 0.0621 - acc: 0.9810 - val_loss: 0.0586 - val_acc: 0.9824
+Epoch 5/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06011--acc::0.9814Epoch 00004: val_loss did not improve
+2200000/2200000 [==============================] - 5449s - loss: 0.0601 - acc: 0.9814 - val_loss: 0.0588 - val_acc: 0.9827
+Epoch 6/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.05855--acc::0.9817Epoch 00005: val_loss did not improve
+2200000/2200000 [==============================] - 5449s - loss: 0.0585 - acc: 0.9817 - val_loss: 0.0592 - val_acc: 0.9822
+Epoch 7/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.05733--acc::0.9820Epoch 00006: val_loss did not improve
+2200000/2200000 [==============================] - 5448s - loss: 0.0573 - acc: 0.9820 - val_loss: 0.0594 - val_acc: 0.9826
+Epoch 8/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.05644--acc::0.9822Epoch 00007: val_loss did not improve
+2200000/2200000 [==============================] - 5448s - loss: 0.0564 - acc: 0.9822 - val_loss: 0.0589 - val_acc: 0.9827
+Epoch 9/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.05566--acc::0.9824Epoch 00008: val_loss did not improve
+2200000/2200000 [==============================] - 5450s - loss: 0.0556 - acc: 0.9824 - val_loss: 0.0589 - val_acc: 0.9822
+Epoch 00008: early stopping
+455024/455024 [==============================] - 243s
+[0.064075665494605957, 0.98070039719048718]
+
+455024/455024 [==============================] - 243s
+[0.063197793578995937, 0.98112574143308962]

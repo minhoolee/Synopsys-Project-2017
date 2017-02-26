@@ -1,0 +1,26 @@
+Running at most 70 epochs
+The date is 01/29/2017
+The time is 11:22:29
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+2199600/2200000 [============================>.] - ETA: 0s - loss: 0.3484 - acc: 0.9783Epoch 00000: val_loss improved from inf to 0.31440, saving model to models/DanQ_bestmodel.hdf5
+2200000/2200000 [==============================] - 2293s - loss: 0.3484 - acc: 0.9783 - val_loss: 0.3144 - val_acc: 0.9805
+Epoch 2/70
+2199600/2200000 [============================>.] - ETA: 0s - loss: 0.3483 - acc: 0.9784Epoch 00001: val_loss did not improve
+2200000/2200000 [==============================] - 2273s - loss: 0.3483 - acc: 0.9784 - val_loss: 0.3144 - val_acc: 0.9805
+Epoch 3/70
+2199600/2200000 [============================>.] - ETA: 0s - loss: 0.3483 - acc: 0.9784Epoch 00002: val_loss did not improve
+2200000/2200000 [==============================] - 2270s - loss: 0.3483 - acc: 0.9784 - val_loss: 0.3144 - val_acc: 0.9805
+Epoch 4/70
+2199600/2200000 [============================>.] - ETA: 0s - loss: 0.3483 - acc: 0.9784Epoch 00003: val_loss did not improve
+2200000/2200000 [==============================] - 2270s - loss: 0.3483 - acc: 0.9784 - val_loss: 0.3144 - val_acc: 0.9805
+Epoch 5/70
+2199600/2200000 [============================>.] - ETA: 0s - loss: 0.3483 - acc: 0.9784Epoch 00004: val_loss did not improve
+2200000/2200000 [==============================] - 2271s - loss: 0.3483 - acc: 0.9784 - val_loss: 0.3144 - val_acc: 0.9805
+Epoch 6/70
+2199600/2200000 [============================>.] - ETA: 0s - loss: 0.3483 - acc: 0.9784Epoch 00005: val_loss did not improve
+2200000/2200000 [==============================] - 2269s - loss: 0.3483 - acc: 0.9784 - val_loss: 0.3144 - val_acc: 0.9805
+Epoch 7/70
+2199600/2200000 [============================>.] - ETA: 0s - loss: 0.3483 - acc: 0.9784Epoch 00006: val_loss did not improve
+2200000/2200000 [==============================] - 2268s - loss: 0.3483 - acc: 0.9784 - val_loss: 0.3144 - val_acc: 0.9805
+Epoch 00006: early stopping

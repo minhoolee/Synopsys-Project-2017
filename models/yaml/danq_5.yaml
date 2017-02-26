@@ -1,0 +1,103 @@
+class_name: Sequential
+config:
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: relu
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: valid
+    filter_length: 26
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_1
+    nb_filter: 320
+    subsample_length: 1
+    trainable: true
+- class_name: MaxPooling1D
+  config: {border_mode: valid, name: maxpooling1d_1, pool_length: 13, stride: 13,
+    trainable: true}
+- class_name: Dropout
+  config: {name: dropout_1, p: 0.2, trainable: true}
+- class_name: Bidirectional
+  config:
+    layer:
+      class_name: LSTM
+      config:
+        U_regularizer: null
+        W_regularizer: null
+        activation: tanh
+        b_regularizer: null
+        batch_input_shape: !!python/tuple [null, null, 320]
+        consume_less: cpu
+        dropout_U: 0.0
+        dropout_W: 0.0
+        forget_bias_init: one
+        go_backwards: false
+        init: glorot_uniform
+        inner_activation: hard_sigmoid
+        inner_init: orthogonal
+        input_dim: 320
+        input_dtype: float32
+        input_length: null
+        name: forward_lstm_1
+        output_dim: 320
+        return_sequences: true
+        stateful: false
+        trainable: true
+        unroll: false
+    merge_mode: concat
+    name: bidirectional_1
+    trainable: true
+- class_name: Dropout
+  config: {name: dropout_2, p: 0.5, trainable: true}
+- class_name: Flatten
+  config: {name: flatten_1, trainable: true}
+- class_name: Dense
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 48000]
+    bias: true
+    init: glorot_uniform
+    input_dim: !!python/object/apply:numpy.core.multiarray.scalar
+    - !!python/object/apply:numpy.dtype
+      args: [i8, 0, 1]
+      state: !!python/tuple [3, <, null, null, null, -1, -1, 0]
+    - !!binary |
+      gLsAAAAAAAA=
+    input_dtype: float32
+    name: dense_1
+    output_dim: 925
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_1, trainable: true}
+- class_name: Dense
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 925]
+    bias: true
+    init: glorot_uniform
+    input_dim: 925
+    input_dtype: float32
+    name: dense_2
+    output_dim: 919
+    trainable: true
+- class_name: Activation
+  config: {activation: sigmoid, name: activation_2, trainable: true}
+keras_version: 1.2.1

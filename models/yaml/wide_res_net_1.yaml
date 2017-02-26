@@ -1,0 +1,1105 @@
+class_name: Model
+config:
+  input_layers:
+  - [input_1, 0, 0]
+  layers:
+  - class_name: InputLayer
+    config:
+      batch_input_shape: !!python/tuple [null, 1000, 4]
+      input_dtype: float32
+      name: input_1
+      sparse: false
+    inbound_nodes: []
+    name: input_1
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_1
+      nb_filter: 16
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [input_1, 0, 0]
+    name: convolution1d_1
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_1, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_1, 0, 0]
+    name: batchnormalization_1
+  - class_name: Activation
+    config: {activation: relu, name: activation_1, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_1, 0, 0]
+    name: activation_1
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_2
+      nb_filter: 64
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_1, 0, 0]
+    name: convolution1d_2
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_2, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_2, 0, 0]
+    name: batchnormalization_2
+  - class_name: Activation
+    config: {activation: relu, name: activation_2, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_2, 0, 0]
+    name: activation_2
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_3
+      nb_filter: 64
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_2, 0, 0]
+    name: convolution1d_3
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 1
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_4
+      nb_filter: 64
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_1, 0, 0]
+    name: convolution1d_4
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_1
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_3, 0, 0]
+      - [convolution1d_4, 0, 0]
+    name: merge_1
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_3, trainable: true}
+    inbound_nodes:
+    - - [merge_1, 0, 0]
+    name: batchnormalization_3
+  - class_name: Activation
+    config: {activation: relu, name: activation_3, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_3, 0, 0]
+    name: activation_3
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_5
+      nb_filter: 64
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_3, 0, 0]
+    name: convolution1d_5
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_4, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_5, 0, 0]
+    name: batchnormalization_4
+  - class_name: Activation
+    config: {activation: relu, name: activation_4, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_4, 0, 0]
+    name: activation_4
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_6
+      nb_filter: 64
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_4, 0, 0]
+    name: convolution1d_6
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_2
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_6, 0, 0]
+      - [merge_1, 0, 0]
+    name: merge_2
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_5, trainable: true}
+    inbound_nodes:
+    - - [merge_2, 0, 0]
+    name: batchnormalization_5
+  - class_name: Activation
+    config: {activation: relu, name: activation_5, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_5, 0, 0]
+    name: activation_5
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_7
+      nb_filter: 64
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_5, 0, 0]
+    name: convolution1d_7
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_6, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_7, 0, 0]
+    name: batchnormalization_6
+  - class_name: Activation
+    config: {activation: relu, name: activation_6, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_6, 0, 0]
+    name: activation_6
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_8
+      nb_filter: 64
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_6, 0, 0]
+    name: convolution1d_8
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_3
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_8, 0, 0]
+      - [merge_2, 0, 0]
+    name: merge_3
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_7, trainable: true}
+    inbound_nodes:
+    - - [merge_3, 0, 0]
+    name: batchnormalization_7
+  - class_name: Activation
+    config: {activation: relu, name: activation_7, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_7, 0, 0]
+    name: activation_7
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_9
+      nb_filter: 64
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_7, 0, 0]
+    name: convolution1d_9
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_8, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_9, 0, 0]
+    name: batchnormalization_8
+  - class_name: Activation
+    config: {activation: relu, name: activation_8, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_8, 0, 0]
+    name: activation_8
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_10
+      nb_filter: 64
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_8, 0, 0]
+    name: convolution1d_10
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_4
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_10, 0, 0]
+      - [merge_3, 0, 0]
+    name: merge_4
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_9, trainable: true}
+    inbound_nodes:
+    - - [merge_4, 0, 0]
+    name: batchnormalization_9
+  - class_name: Activation
+    config: {activation: relu, name: activation_9, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_9, 0, 0]
+    name: activation_9
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_11
+      nb_filter: 128
+      subsample_length: 2
+      trainable: true
+    inbound_nodes:
+    - - [activation_9, 0, 0]
+    name: convolution1d_11
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_10, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_11, 0, 0]
+    name: batchnormalization_10
+  - class_name: Activation
+    config: {activation: relu, name: activation_10, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_10, 0, 0]
+    name: activation_10
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_12
+      nb_filter: 128
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_10, 0, 0]
+    name: convolution1d_12
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 1
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_13
+      nb_filter: 128
+      subsample_length: 2
+      trainable: true
+    inbound_nodes:
+    - - [activation_9, 0, 0]
+    name: convolution1d_13
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_5
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_12, 0, 0]
+      - [convolution1d_13, 0, 0]
+    name: merge_5
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_11, trainable: true}
+    inbound_nodes:
+    - - [merge_5, 0, 0]
+    name: batchnormalization_11
+  - class_name: Activation
+    config: {activation: relu, name: activation_11, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_11, 0, 0]
+    name: activation_11
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_14
+      nb_filter: 128
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_11, 0, 0]
+    name: convolution1d_14
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_12, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_14, 0, 0]
+    name: batchnormalization_12
+  - class_name: Activation
+    config: {activation: relu, name: activation_12, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_12, 0, 0]
+    name: activation_12
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_15
+      nb_filter: 128
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_12, 0, 0]
+    name: convolution1d_15
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_6
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_15, 0, 0]
+      - [merge_5, 0, 0]
+    name: merge_6
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_13, trainable: true}
+    inbound_nodes:
+    - - [merge_6, 0, 0]
+    name: batchnormalization_13
+  - class_name: Activation
+    config: {activation: relu, name: activation_13, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_13, 0, 0]
+    name: activation_13
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_16
+      nb_filter: 128
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_13, 0, 0]
+    name: convolution1d_16
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_14, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_16, 0, 0]
+    name: batchnormalization_14
+  - class_name: Activation
+    config: {activation: relu, name: activation_14, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_14, 0, 0]
+    name: activation_14
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_17
+      nb_filter: 128
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_14, 0, 0]
+    name: convolution1d_17
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_7
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_17, 0, 0]
+      - [merge_6, 0, 0]
+    name: merge_7
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_15, trainable: true}
+    inbound_nodes:
+    - - [merge_7, 0, 0]
+    name: batchnormalization_15
+  - class_name: Activation
+    config: {activation: relu, name: activation_15, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_15, 0, 0]
+    name: activation_15
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_18
+      nb_filter: 128
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_15, 0, 0]
+    name: convolution1d_18
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_16, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_18, 0, 0]
+    name: batchnormalization_16
+  - class_name: Activation
+    config: {activation: relu, name: activation_16, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_16, 0, 0]
+    name: activation_16
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_19
+      nb_filter: 128
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_16, 0, 0]
+    name: convolution1d_19
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_8
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_19, 0, 0]
+      - [merge_7, 0, 0]
+    name: merge_8
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_17, trainable: true}
+    inbound_nodes:
+    - - [merge_8, 0, 0]
+    name: batchnormalization_17
+  - class_name: Activation
+    config: {activation: relu, name: activation_17, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_17, 0, 0]
+    name: activation_17
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_20
+      nb_filter: 256
+      subsample_length: 2
+      trainable: true
+    inbound_nodes:
+    - - [activation_17, 0, 0]
+    name: convolution1d_20
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_18, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_20, 0, 0]
+    name: batchnormalization_18
+  - class_name: Activation
+    config: {activation: relu, name: activation_18, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_18, 0, 0]
+    name: activation_18
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_21
+      nb_filter: 256
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_18, 0, 0]
+    name: convolution1d_21
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 1
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_22
+      nb_filter: 256
+      subsample_length: 2
+      trainable: true
+    inbound_nodes:
+    - - [activation_17, 0, 0]
+    name: convolution1d_22
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_9
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_21, 0, 0]
+      - [convolution1d_22, 0, 0]
+    name: merge_9
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_19, trainable: true}
+    inbound_nodes:
+    - - [merge_9, 0, 0]
+    name: batchnormalization_19
+  - class_name: Activation
+    config: {activation: relu, name: activation_19, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_19, 0, 0]
+    name: activation_19
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_23
+      nb_filter: 256
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_19, 0, 0]
+    name: convolution1d_23
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_20, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_23, 0, 0]
+    name: batchnormalization_20
+  - class_name: Activation
+    config: {activation: relu, name: activation_20, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_20, 0, 0]
+    name: activation_20
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_24
+      nb_filter: 256
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_20, 0, 0]
+    name: convolution1d_24
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_10
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_24, 0, 0]
+      - [merge_9, 0, 0]
+    name: merge_10
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_21, trainable: true}
+    inbound_nodes:
+    - - [merge_10, 0, 0]
+    name: batchnormalization_21
+  - class_name: Activation
+    config: {activation: relu, name: activation_21, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_21, 0, 0]
+    name: activation_21
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_25
+      nb_filter: 256
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_21, 0, 0]
+    name: convolution1d_25
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_22, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_25, 0, 0]
+    name: batchnormalization_22
+  - class_name: Activation
+    config: {activation: relu, name: activation_22, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_22, 0, 0]
+    name: activation_22
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_26
+      nb_filter: 256
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_22, 0, 0]
+    name: convolution1d_26
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_11
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_26, 0, 0]
+      - [merge_10, 0, 0]
+    name: merge_11
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_23, trainable: true}
+    inbound_nodes:
+    - - [merge_11, 0, 0]
+    name: batchnormalization_23
+  - class_name: Activation
+    config: {activation: relu, name: activation_23, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_23, 0, 0]
+    name: activation_23
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_27
+      nb_filter: 256
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_23, 0, 0]
+    name: convolution1d_27
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_24, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_27, 0, 0]
+    name: batchnormalization_24
+  - class_name: Activation
+    config: {activation: relu, name: activation_24, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_24, 0, 0]
+    name: activation_24
+  - class_name: Convolution1D
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      border_mode: same
+      filter_length: 3
+      init: he_normal
+      input_dim: null
+      input_length: null
+      name: convolution1d_28
+      nb_filter: 256
+      subsample_length: 1
+      trainable: true
+    inbound_nodes:
+    - - [activation_24, 0, 0]
+    name: convolution1d_28
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_12
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [convolution1d_28, 0, 0]
+      - [merge_11, 0, 0]
+    name: merge_12
+  - class_name: BatchNormalization
+    config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+      mode: 0, momentum: 0.99, name: batchnormalization_25, trainable: true}
+    inbound_nodes:
+    - - [merge_12, 0, 0]
+    name: batchnormalization_25
+  - class_name: Activation
+    config: {activation: relu, name: activation_25, trainable: true}
+    inbound_nodes:
+    - - [batchnormalization_25, 0, 0]
+    name: activation_25
+  - class_name: AveragePooling1D
+    config: {border_mode: same, name: averagepooling1d_1, pool_length: 8, stride: 1,
+      trainable: true}
+    inbound_nodes:
+    - - [activation_25, 0, 0]
+    name: averagepooling1d_1
+  - class_name: Flatten
+    config: {name: flatten_1, trainable: true}
+    inbound_nodes:
+    - - [averagepooling1d_1, 0, 0]
+    name: flatten_1
+  - class_name: Dense
+    config:
+      W_constraint: null
+      W_regularizer: {l1: 0.0, l2: 0.0005000000237487257, name: L1L2Regularizer}
+      activation: softmax
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: false
+      init: he_normal
+      input_dim: !!python/object/apply:numpy.core.multiarray.scalar
+      - !!python/object/apply:numpy.dtype
+        args: [i8, 0, 1]
+        state: !!python/tuple [3, <, null, null, null, -1, -1, 0]
+      - !!binary |
+        APoAAAAAAAA=
+      name: dense_1
+      output_dim: 919
+      trainable: true
+    inbound_nodes:
+    - - [flatten_1, 0, 0]
+    name: dense_1
+  name: model_1
+  output_layers:
+  - [dense_1, 0, 0]
+keras_version: 1.2.2

@@ -1,0 +1,338 @@
+class_name: Sequential
+config:
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_1
+    nb_filter: 64
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_1, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_2
+    nb_filter: 64
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_2, trainable: true}
+- class_name: MaxPooling1D
+  config: {border_mode: valid, name: maxpooling1d_1, pool_length: 2, stride: 2, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_3
+    nb_filter: 128
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_3, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_4
+    nb_filter: 128
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_4, trainable: true}
+- class_name: MaxPooling1D
+  config: {border_mode: valid, name: maxpooling1d_2, pool_length: 2, stride: 2, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_5
+    nb_filter: 256
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_5, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_6
+    nb_filter: 256
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_6, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_7
+    nb_filter: 256
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_7, trainable: true}
+- class_name: MaxPooling1D
+  config: {border_mode: valid, name: maxpooling1d_3, pool_length: 2, stride: 2, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_8
+    nb_filter: 512
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_8, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_9
+    nb_filter: 512
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_9, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_10
+    nb_filter: 512
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_10, trainable: true}
+- class_name: MaxPooling1D
+  config: {border_mode: valid, name: maxpooling1d_4, pool_length: 2, stride: 2, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_11
+    nb_filter: 512
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_11, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_12
+    nb_filter: 512
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_12, trainable: true}
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: same
+    filter_length: 3
+    init: glorot_uniform
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_13
+    nb_filter: 512
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_13, trainable: true}
+- class_name: MaxPooling1D
+  config: {border_mode: valid, name: maxpooling1d_5, pool_length: 2, stride: 2, trainable: true}
+- class_name: Flatten
+  config: {name: flatten_1, trainable: true}
+- class_name: Dense
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    bias: true
+    init: glorot_uniform
+    input_dim: !!python/object/apply:numpy.core.multiarray.scalar
+    - !!python/object/apply:numpy.dtype
+      args: [i8, 0, 1]
+      state: !!python/tuple [3, <, null, null, null, -1, -1, 0]
+    - !!binary |
+      AD4AAAAAAAA=
+    name: dense_1
+    output_dim: 4000
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_14, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_1, p: 0.5, trainable: true}
+- class_name: Dense
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, init: glorot_uniform, input_dim: 4000,
+    name: dense_2, output_dim: 4000, trainable: true}
+- class_name: Activation
+  config: {activation: relu, name: activation_15, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_2, p: 0.5, trainable: true}
+- class_name: Dense
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, init: glorot_uniform, input_dim: 4000,
+    name: dense_3, output_dim: 919, trainable: true}
+- class_name: Activation
+  config: {activation: sigmoid, name: activation_16, trainable: true}
+keras_version: 1.2.1

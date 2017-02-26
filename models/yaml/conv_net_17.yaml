@@ -1,0 +1,194 @@
+class_name: Sequential
+config:
+- class_name: Convolution1D
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1000, 4]
+    bias: true
+    border_mode: valid
+    filter_length: 3
+    init: he_normal
+    input_dim: 4
+    input_dtype: float32
+    input_length: 1000
+    name: convolution1d_1
+    nb_filter: 64
+    subsample_length: 1
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_1, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_1, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_1, p: 0.2, trainable: true}
+- class_name: Convolution1D
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, border_mode: valid, filter_length: 3,
+    init: he_normal, input_dim: null, input_length: null, name: convolution1d_2, nb_filter: 64,
+    subsample_length: 1, trainable: true}
+- class_name: Activation
+  config: {activation: relu, name: activation_2, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_2, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_2, p: 0.2, trainable: true}
+- class_name: MaxPooling1D
+  config: {border_mode: valid, name: maxpooling1d_1, pool_length: 2, stride: 2, trainable: true}
+- class_name: Convolution1D
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, border_mode: valid, filter_length: 3,
+    init: he_normal, input_dim: null, input_length: null, name: convolution1d_3, nb_filter: 128,
+    subsample_length: 1, trainable: true}
+- class_name: Activation
+  config: {activation: relu, name: activation_3, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_3, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_3, p: 0.2, trainable: true}
+- class_name: Convolution1D
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, border_mode: valid, filter_length: 3,
+    init: he_normal, input_dim: null, input_length: null, name: convolution1d_4, nb_filter: 128,
+    subsample_length: 1, trainable: true}
+- class_name: Activation
+  config: {activation: relu, name: activation_4, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_4, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_4, p: 0.2, trainable: true}
+- class_name: MaxPooling1D
+  config: {border_mode: valid, name: maxpooling1d_2, pool_length: 2, stride: 2, trainable: true}
+- class_name: Convolution1D
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, border_mode: valid, filter_length: 3,
+    init: he_normal, input_dim: null, input_length: null, name: convolution1d_5, nb_filter: 256,
+    subsample_length: 1, trainable: true}
+- class_name: Activation
+  config: {activation: relu, name: activation_5, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_5, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_5, p: 0.2, trainable: true}
+- class_name: Convolution1D
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, border_mode: valid, filter_length: 3,
+    init: he_normal, input_dim: null, input_length: null, name: convolution1d_6, nb_filter: 256,
+    subsample_length: 1, trainable: true}
+- class_name: Activation
+  config: {activation: relu, name: activation_6, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_6, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_6, p: 0.2, trainable: true}
+- class_name: Convolution1D
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, border_mode: valid, filter_length: 3,
+    init: he_normal, input_dim: null, input_length: null, name: convolution1d_7, nb_filter: 256,
+    subsample_length: 1, trainable: true}
+- class_name: Activation
+  config: {activation: relu, name: activation_7, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_7, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_7, p: 0.2, trainable: true}
+- class_name: MaxPooling1D
+  config: {border_mode: valid, name: maxpooling1d_3, pool_length: 2, stride: 2, trainable: true}
+- class_name: Convolution1D
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, border_mode: valid, filter_length: 3,
+    init: he_normal, input_dim: null, input_length: null, name: convolution1d_8, nb_filter: 512,
+    subsample_length: 1, trainable: true}
+- class_name: Activation
+  config: {activation: relu, name: activation_8, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_8, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_8, p: 0.2, trainable: true}
+- class_name: Convolution1D
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, border_mode: valid, filter_length: 3,
+    init: he_normal, input_dim: null, input_length: null, name: convolution1d_9, nb_filter: 512,
+    subsample_length: 1, trainable: true}
+- class_name: Activation
+  config: {activation: relu, name: activation_9, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_9, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_9, p: 0.2, trainable: true}
+- class_name: Convolution1D
+  config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+    b_constraint: null, b_regularizer: null, bias: true, border_mode: valid, filter_length: 3,
+    init: he_normal, input_dim: null, input_length: null, name: convolution1d_10,
+    nb_filter: 512, subsample_length: 1, trainable: true}
+- class_name: Activation
+  config: {activation: relu, name: activation_10, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_10, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_10, p: 0.2, trainable: true}
+- class_name: MaxPooling1D
+  config: {border_mode: valid, name: maxpooling1d_4, pool_length: 2, stride: 2, trainable: true}
+- class_name: Flatten
+  config: {name: flatten_1, trainable: true}
+- class_name: Dense
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 4096]
+    bias: true
+    init: he_normal
+    input_dim: !!python/object/apply:numpy.core.multiarray.scalar
+    - !!python/object/apply:numpy.dtype
+      args: [i8, 0, 1]
+      state: !!python/tuple [3, <, null, null, null, -1, -1, 0]
+    - !!binary |
+      AHIAAAAAAAA=
+    input_dtype: float32
+    name: dense_1
+    output_dim: 1024
+    trainable: true
+- class_name: Activation
+  config: {activation: relu, name: activation_11, trainable: true}
+- class_name: BatchNormalization
+  config: {axis: -1, beta_regularizer: null, epsilon: 0.001, gamma_regularizer: null,
+    mode: 0, momentum: 0.99, name: batchnormalization_11, trainable: true}
+- class_name: Dropout
+  config: {name: dropout_11, p: 0.5, trainable: true}
+- class_name: Dense
+  config:
+    W_constraint: null
+    W_regularizer: null
+    activation: linear
+    activity_regularizer: null
+    b_constraint: null
+    b_regularizer: null
+    batch_input_shape: !!python/tuple [null, 1024]
+    bias: true
+    init: he_normal
+    input_dim: 1024
+    input_dtype: float32
+    name: dense_2
+    output_dim: 919
+    trainable: true
+- class_name: Activation
+  config: {activation: sigmoid, name: activation_12, trainable: true}
+keras_version: 1.2.1

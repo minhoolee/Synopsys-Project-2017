@@ -1,0 +1,70 @@
+
+Saving models in json and yaml format to models/json/conv_net_6.json and  models/yaml/conv_net_6.yaml
+Saving weights to models/weights/conv_net_6.hdf5 and epoch logs to logs/half_set/conv_net_6.csv
+Retrieving train, validation, and test data
+Building the model
+Compiling model
+Saving models/json/conv_net_6.json to models/json/conv_net_6.json.old
+Saving models/yaml/conv_net_6.yaml to models/yaml/conv_net_6.yaml.old
+Loading weights if they exist
+Saving logs/half_set/conv_net_6.csv to logs/half_set/conv_net_6.csv.old
+
+Running at most 70 epochs
+The date is 02/05/2017
+The time is 01:09:06
+
+Train on 2200000 samples, validate on 8000 samples
+Epoch 1/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.08166--acc::0.9789Epoch 00000: val_loss improved from inf to 0.08227, saving model to models/weights/conv_net_6.hdf5
+2200000/2200000 [==============================] - 4069s - loss: 0.0816 - acc: 0.9789 - val_loss: 0.0823 - val_acc: 0.9809
+Epoch 2/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.07622--acc::0.9791Epoch 00001: val_loss improved from 0.08227 to 0.07096, saving model to models/weights/conv_net_6.hdf5
+2200000/2200000 [==============================] - 3956s - loss: 0.0762 - acc: 0.9791 - val_loss: 0.0710 - val_acc: 0.9812
+Epoch 3/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.07122--acc::0.9795Epoch 00002: val_loss improved from 0.07096 to 0.06532, saving model to models/weights/conv_net_6.hdf5
+2200000/2200000 [==============================] - 3955s - loss: 0.0712 - acc: 0.9795 - val_loss: 0.0653 - val_acc: 0.9818
+Epoch 4/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06922--acc::0.9798Epoch 00003: val_loss did not improve
+2200000/2200000 [==============================] - 3953s - loss: 0.0692 - acc: 0.9798 - val_loss: 0.0659 - val_acc: 0.9820
+Epoch 5/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06800--acc::0.9800Epoch 00004: val_loss improved from 0.06532 to 0.06468, saving model to models/weights/conv_net_6.hdf5
+2200000/2200000 [==============================] - 3954s - loss: 0.0680 - acc: 0.9800 - val_loss: 0.0647 - val_acc: 0.9821
+Epoch 6/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06711--acc::0.9802Epoch 00005: val_loss improved from 0.06468 to 0.06357, saving model to models/weights/conv_net_6.hdf5
+2200000/2200000 [==============================] - 3953s - loss: 0.0671 - acc: 0.9802 - val_loss: 0.0636 - val_acc: 0.9820
+Epoch 7/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06633--acc::0.9803Epoch 00006: val_loss improved from 0.06357 to 0.05857, saving model to models/weights/conv_net_6.hdf5
+2200000/2200000 [==============================] - 3953s - loss: 0.0663 - acc: 0.9803 - val_loss: 0.0586 - val_acc: 0.9828
+Epoch 8/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06555--acc::0.9804Epoch 00007: val_loss did not improve
+2200000/2200000 [==============================] - 3952s - loss: 0.0655 - acc: 0.9804 - val_loss: 0.0605 - val_acc: 0.9826
+Epoch 9/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06499--acc::0.9805Epoch 00008: val_loss did not improve
+2200000/2200000 [==============================] - 3955s - loss: 0.0649 - acc: 0.9805 - val_loss: 0.0592 - val_acc: 0.9827
+Epoch 10/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06433--acc::0.9806Epoch 00009: val_loss did not improve
+2200000/2200000 [==============================] - 3955s - loss: 0.0643 - acc: 0.9806 - val_loss: 0.0598 - val_acc: 0.9827
+Epoch 11/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06377--acc::0.9807Epoch 00010: val_loss improved from 0.05857 to 0.05804, saving model to models/weights/conv_net_6.hdf5
+2200000/2200000 [==============================] - 3954s - loss: 0.0637 - acc: 0.9807 - val_loss: 0.0580 - val_acc: 0.9828
+Epoch 12/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06311--acc::0.9808Epoch 00011: val_loss did not improve
+2200000/2200000 [==============================] - 3952s - loss: 0.0631 - acc: 0.9808 - val_loss: 0.0598 - val_acc: 0.9825
+Epoch 13/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06266--acc::0.9809Epoch 00012: val_loss did not improve
+2200000/2200000 [==============================] - 3952s - loss: 0.0626 - acc: 0.9809 - val_loss: 0.0608 - val_acc: 0.9827
+Epoch 14/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06211--acc::0.9810Epoch 00013: val_loss did not improve
+2200000/2200000 [==============================] - 3951s - loss: 0.0621 - acc: 0.9810 - val_loss: 0.0585 - val_acc: 0.9828
+Epoch 15/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06177--acc::0.9811Epoch 00014: val_loss did not improve
+2200000/2200000 [==============================] - 3952s - loss: 0.0617 - acc: 0.9811 - val_loss: 0.0581 - val_acc: 0.9828
+Epoch 16/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06133--acc::0.9812Epoch 00015: val_loss did not improve
+2200000/2200000 [==============================] - 3952s - loss: 0.0613 - acc: 0.9812 - val_loss: 0.0583 - val_acc: 0.9827
+Epoch 17/70
+2199600/2200000 [============================>.] - ETA: 0ss--loss::0.06088--acc::0.9813Epoch 00016: val_loss did not improve
+2200000/2200000 [==============================] - 3952s - loss: 0.0608 - acc: 0.9813 - val_loss: 0.0636 - val_acc: 0.9815
+Epoch 00016: early stopping
+455008/455024 [============================>.] - ETA: 0s
+[0.064182483063895276, 0.98120249322901099]
