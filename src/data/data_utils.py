@@ -89,6 +89,9 @@ class ModelData(object):
         self._shrink_size_=(train, valid, test)
 
     def set_nb_samples(self, train=None, valid=None, test=None):
+        """
+        Set the number of samples to use before moving to next epoch
+        """
         if train is not None:
             self.nb_train_samples
 
@@ -119,7 +122,8 @@ class ModelData(object):
     def get_data_tuples(self, shrink_size=(1.0, 1.0, 1.0)):
         """
         Returns truncated versions of test, validation, and train data.
-        The shrink_size is a tuple of the ratio of the truncated datasets to the full datasets.
+        The shrink_size is a tuple of the ratio of 
+        the truncated datasets to the full datasets.
 
         # Arguments
             shrink_size:
@@ -127,7 +131,9 @@ class ModelData(object):
                 of the truncated dataset to the full dataset
 
         # Returns
-            named tuples ((X_train, y_train), (X_valid, y_valid), (X_test, y_test))
+            named tuples ((X_train, y_train), 
+                          (X_valid, y_valid), 
+                          (X_test, y_test))
         """
         return (self.get_train_tuple(),
                 self.get_valid_tuple(),
@@ -136,7 +142,8 @@ class ModelData(object):
     def get_train_tuple(self, shrink_size=None):
         """
         Returns truncated version of the test data from a h5py file.
-        The shrink_size is the ratio of the truncated dataset to the full dataset.
+        The shrink_size is the ratio of 
+        the truncated dataset to the full dataset.
         Passing a shrink_size will not modify the self._shrink_size_
 
         # Arguments
@@ -163,7 +170,8 @@ class ModelData(object):
     def get_valid_tuple(self, shrink_size=None):
         """
         Returns truncated version of the validation data from a scipy.io file
-        The shrink_size is the ratio of the truncated dataset to the full dataset.
+        The shrink_size is the ratio of 
+        the truncated dataset to the full dataset.
         Passing a shrink_size will not modify the self._shrink_size_
 
         # Arguments
@@ -181,16 +189,21 @@ class ModelData(object):
         # Reduce number of samples
         # Scipy.io mat is in (samples, rows, columns) and (samples, classes)
         X_valid = np.transpose(
-            self._get_shrunk_array(validmat, self._valid_[DataFile.X.value], (shrink_size, 1, 1)),
+            self._get_shrunk_array(validmat, 
+                                   self._valid_[DataFile.X.value], 
+                                   (shrink_size, 1, 1)),
             axes = (0, 2, 1))
-        y_valid = self._get_shrunk_array(validmat, self._valid_[DataFile.Y.value], (shrink_size, 1))
+        y_valid = self._get_shrunk_array(validmat, 
+                                         self._valid_[DataFile.Y.value], 
+                                         (shrink_size, 1))
 
         return tuple('valid_tuple', 'X_valid y_valid')(X_valid, y_valid)
 
     def get_test_tuple(self, shrink_size=None):
         """
         Returns truncated version of the test data from a scipy.io file
-        The shrink_size is the ratio of the truncated dataset to the full dataset.
+        The shrink_size is the ratio of 
+        the truncated dataset to the full dataset.
         Passing a shrink_size will not modify the self._shrink_size_
 
         # Arguments
@@ -208,13 +221,20 @@ class ModelData(object):
         # Reduce number of samples
         # Scipy.io mat is in (samples, rows, columns) and (samples, classes)
         X_test = np.transpose(
-            self._get_shrunk_array(testmat, self._test_[1], (shrink_size, 1, 1)),
+            self._get_shrunk_array(testmat, 
+                                   self._test_[1], 
+                                   (shrink_size, 1, 1)),
             axes = (0, 2, 1))
-        y_test = self._get_shrunk_array(testmat, self._test_[2], (shrink_size, 1))
+        y_test = self._get_shrunk_array(testmat, 
+                                        self._test_[2], 
+                                        (shrink_size, 1))
 
         return tuple('test_tuple', 'X_test y_test')(X_test, y_test)
 
-    def get_data_tuples_generator(self, shrink_size=None, nb_samples=None, batch_size=None):
+    def get_data_tuples_generator(self, 
+                                  shrink_size=None, 
+                                  nb_samples=None, 
+                                  batch_size=None):
         """
         Returns three generator that yield truncated versions
         of the training, validation, and test data.
@@ -250,7 +270,10 @@ class ModelData(object):
                                               nb_samples=nb_samples[Dataset.TEST.value],
                                               batch_size=batch_size))
 
-    def get_train_tuple_generator(self, shrink_size=None, nb_samples=None, batch_size=None):
+    def get_train_tuple_generator(self, 
+                                  shrink_size=None, 
+                                  nb_samples=None, 
+                                  batch_size=None):
         """
         Creates a generator that yields a truncated version
         of the train data from a h5py file.
@@ -277,7 +300,8 @@ class ModelData(object):
 
         max_batches = floor(train_tuple.X_train.shape[0] / batch_size)
 
-        # Set the number of batches to either the maximum or the greatest possible
+        # Set the number of batches to either 
+        # the maximum or the greatest possible
         if nb_samples is None or nb_samples >= (max_batches * batch_size):
             nb_batches = max_batches
         else:
@@ -291,7 +315,10 @@ class ModelData(object):
                         (train_tuple.X_train[i * batch_size : (i+1) * batch_size],
                          train_tuple.y_train[i * batch_size : (i+1) * batch_size])
 
-    def get_valid_tuple_generator(self, shrink_size=None, nb_samples=None, batch_size=None):
+    def get_valid_tuple_generator(self, 
+                                  shrink_size=None, 
+                                  nb_samples=None, 
+                                  batch_size=None):
         """
         Creates a generator that yields a truncated version
         of the validation data from a scipy.io file
@@ -318,7 +345,8 @@ class ModelData(object):
 
         max_batches = floor(valid_tuple.X_valid.shape[0] / batch_size)
 
-        # Set the number of batches to either the maximum or the greatest possible
+        # Set the number of batches to either 
+        # the maximum or the greatest possible
         if nb_samples is None or nb_samples >= (max_batches * batch_size):
             nb_batches = max_batches
         else:
@@ -333,7 +361,10 @@ class ModelData(object):
                         (valid_tuple.X_valid[i * batch_size : (i+1) * batch_size],
                          valid_tuple.y_valid[i * batch_size : (i+1) * batch_size])
 
-    def get_test_tuple_generator(self, shrink_size=None, nb_samples=None, batch_size=None):
+    def get_test_tuple_generator(self, 
+                                 shrink_size=None, 
+                                 nb_samples=None, 
+                                 batch_size=None):
         """
         Creates a generator that yields a truncated version
         of the test data from a scipy.io file
@@ -360,7 +391,8 @@ class ModelData(object):
 
         max_batches = floor(test_tuple.X_test.shape[0] / batch_size)
 
-        # Set the number of batches to either the maximum or the greatest possible
+        # Set the number of batches to either 
+        # the maximum or the greatest possible
         if nb_samples is None or nb_samples >= (max_batches * batch_size):
             nb_batches = max_batches
         else:
@@ -382,7 +414,8 @@ class ModelData(object):
                 float ratio of the truncated dataset to the full dataset
 
         # Returns
-            number of training samples, possibly reduced by the class's shrink size
+            number of training samples, possibly reduced by 
+            the class's shrink size
         """
         if shrink_size is None:
             shrink_size = self._shrink_size_[Dataset.TRAIN.value]
@@ -397,7 +430,8 @@ class ModelData(object):
                 float ratio of the truncated dataset to the full dataset
 
         # Returns
-            number of validation samples, possibly reduced by the class's shrink size
+            number of validation samples, possibly reduced by 
+            the class's shrink size
         """
         if shrink_size is None:
             shrink_size = self._shrink_size_[Dataset.VALID.value]
@@ -412,7 +446,8 @@ class ModelData(object):
                 float ratio of the truncated dataset to the full dataset
 
         # Returns
-            number of test samples, possibly reduced by the class's shrink size
+            number of test samples, possibly reduced by 
+            the class's shrink size
         """
         if shrink_size is None:
             shrink_size = self._shrink_size_[Dataset.TEST.value]
