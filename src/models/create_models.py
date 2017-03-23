@@ -1,22 +1,30 @@
+
 import keras.backend as K
+from keras import layers, metrics, objectives
 from keras.models import Sequential, Model
+from keras.layers import Input
 from keras.layers.core import Dense, Dropout, Activation, Flatten, Reshape
 from keras.layers.advanced_activations import LeakyReLU, PReLU
 from keras.layers.convolutional import Convolution1D, MaxPooling1D
 from keras.layers.normalization import BatchNormalization
 from keras.layers.recurrent import LSTM, GRU
 from keras.layers.wrappers import Bidirectional
-from keras.layers.pooling import GlobalAveragePooling1D
+from keras.layers.pooling import GlobalAveragePooling1D, AveragePooling1D
 from keras.utils.layer_utils import convert_all_kernels_in_model
 from keras.utils.data_utils import get_file
 from keras.optimizers import SGD, Adam
 # from keras.applications.resnet50 import ResNet50
+from keras.regularizers import l2
 from src.models.resnet50 import ResNet50
-from src.models import wide_res_net
-from keras.layers import Input
+from src.models.resnet50 import conv_block, identity_block
+from src.models.wavenet_utils import CausalAtrousConvolution1D, categorical_mean_squared_error
+from src.models import wide_res_net, wave_net
+from src.logging import log_utils
+
+_log = log_utils.logger(__name__)
 
 def DanQ():
-    print ('Building the model')
+    _log.info('Building the model')
     model = Sequential()
     model.add(Convolution1D(input_dim=4,
                             input_length=1000,
@@ -28,11 +36,17 @@ def DanQ():
 
     model.add(MaxPooling1D(pool_length=13, stride=13))
 
-    model.add(Dropout(0.2))
+    # model.add(Dropout(0.2))
 
-    model.add(Bidirectional(LSTM(input_dim=320, output_dim=320, return_sequences=True)))
+    # model.add(Bidirectional(LSTM(input_dim=320, output_dim=320, 
+    #                              dropout_W=0.2, dropout_U=0.5, 
+    #                              return_sequences=True)))
 
-    model.add(Dropout(0.5))
+    # model.add(Dropout(0.5))
+    model.add(Bidirectional(LSTM(input_dim=320, output_dim=320,
+                                dropout_W=0.2, dropout_U=0.5,
+                                # activation='relu', 
+                                return_sequences=True)))
 
     model.add(Flatten())
 
@@ -42,90 +56,239 @@ def DanQ():
     model.add(Dense(input_dim=925, output_dim=919))
     model.add(Activation('sigmoid'))
 
-    print ('Compiling model')
+    _log.info('Compiling model')
     model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     return model;
 
 def conv_net():
-    print ('Building the model')
-    model = Sequential()
-    model.add(Convolution1D(input_dim=4, input_length=1000, 
-                            nb_filter=64, filter_length=3, init='he_normal'))
-    # model.add(Activation('relu'))
-    model.add(PReLU())
-    model.add(BatchNormalization())
-    model.add(Convolution1D(nb_filter=64, filter_length=3, init='he_normal'))
-    # model.add(Activation('relu'))
-    model.add(PReLU())
-    model.add(BatchNormalization())
-    # model.add(Dropout(0.2))
-    # model.add(MaxPooling1D(pool_length=2, stride=2))
+    _log.info('Building the model')
+    input = Input(shape=(1000, 4), name='input')
 
-    model.add(Convolution1D(nb_filter=128, filter_length=3, init='he_normal', subsample_length=2))
-    # model.add(Activation('relu'))
-    model.add(PReLU())
-    model.add(BatchNormalization())
-    model.add(Dropout(0.2))
-    model.add(Convolution1D(nb_filter=128, filter_length=3, init='he_normal', subsample_length=2))
-    # model.add(Activation('relu'))
-    model.add(PReLU())
-    model.add(BatchNormalization())
-    model.add(Dropout(0.2))
-    # model.add(MaxPooling1D(pool_length=2, stride=2))
+    # # ------------------------------------------------------------------------
+    # # Wide Residual Layers http://arxiv.org/abs/1605.07146
+    # # ------------------------------------------------------------------------
 
-    # model.add(Convolution1D(nb_filter=256, filter_length=3, init='he_normal'))
-    # model.add(Activation('relu'))
-    # model.add(BatchNormalization())
-    # model.add(Dropout(0.2))
-    model.add(Convolution1D(nb_filter=256, filter_length=5, init='he_normal', subsample_length=2))
-    # model.add(Activation('relu'))
-    model.add(PReLU())
-    model.add(BatchNormalization())
-    model.add(Dropout(0.2))
-    model.add(Convolution1D(nb_filter=256, filter_length=5, init='he_normal', subsample_length=2))
-    # model.add(Activation('relu'))
-    model.add(PReLU())
-    model.add(BatchNormalization())
-    # model.add(Dropout(0.2))
-    # model.add(BatchNormalization())
-    # model.add(Dropout(0.2))
-    # model.add(MaxPooling1D(pool_length=2, stride=2))
+    # k = 10  # 'widen_factor'; pg 8, table 5 indicates best value(4.00) CIFAR-10
+    # depth = 16 # table 5 on page 8 indicates best value (4.00) CIFAR-10
+    # dropout_probability = 0.3 # table 6 on page 10 indicates best value (3.89) CIFAR-10
+    # weight_decay = 0.0005     # page 10: "Used in all experiments"
+    # weight_init = 'he_normal'
+    # channel_axis = -1
+    # use_bias = False
+    # assert((depth - 4) % 6 == 0)
+    # n = (depth - 4) / 6 
+    # n = 2
     #
-    # model.add(Convolution1D(nb_filter=512, filter_length=3, init='he_normal'))
-    # model.add(Activation('relu'))
-    # model.add(BatchNormalization())
-    # model.add(Dropout(0.2))
-    # model.add(Convolution1D(nb_filter=512, filter_length=3, init='he_normal'))
-    # model.add(Activation('relu'))
-    # model.add(BatchNormalization())
-    # model.add(Dropout(0.2))
-    # model.add(Convolution1D(nb_filter=512, filter_length=3, init='he_normal'))
-    # model.add(Activation('relu'))
-    # model.add(BatchNormalization())
-    # model.add(Dropout(0.2))
-    # model.add(Convolution1D(nb_filter=512, filter_length=3, init='he_normal'))
-    # model.add(Activation('relu'))
-    # model.add(BatchNormalization())
-    # model.add(Dropout(0.2))
+    # block_fn = wide_res_net._wide_basic
+    # a = 16
+    # n_stages = [a, a*k, 2*a*k, 4*a*k, 8*a*k]
+    #
+    # x = Convolution1D(nb_filter=n_stages[0], filter_length=3, 
+    #                       subsample_length=1,
+    #                       border_mode="same",
+    #                       init=weight_init,
+    #                       W_regularizer=l2(weight_decay),
+    #                       bias=use_bias, name='wide_res_net_input_conv')(input) # "One conv at the beginning (spatial size: 32x32)"
+    #
+    # x = BatchNormalization(name='wide_res_net_input_batchnorm')(x)
+    # x = Dropout(0.2)(x)
+    # x = MaxPooling1D(pool_length=2, stride=2)(x)
+    #
+    # # "Stage 1 (spatial size: 32x32)"
+    # x = wide_res_net._layer(block_fn, 
+    #                       n_input_plane=n_stages[0], 
+    #                       n_output_plane=n_stages[1], 
+    #                       n_block=1,
+    #                       count=n, stride=1)(x)
+    #
+    # x = Dropout(0.2)(x)
+    # x = MaxPooling1D(pool_length=2, stride=2)(x)
+    #
+    # # "Stage 2 (spatial size: 16x16)"
+    # x = wide_res_net._layer(block_fn, 
+    #                       n_input_plane=n_stages[1], 
+    #                       n_output_plane=n_stages[2], 
+    #                       n_block=2,
+    #                       count=n, stride=2)(x)
+    #
+    # # # "Stage 3 (spatial size: 8x8)"
+    # # x = wide_res_net._layer(block_fn, 
+    # #                       n_input_plane=n_stages[2], 
+    # #                       n_output_plane=n_stages[3], 
+    # #                       n_block=3,
+    # #                       count=n, stride=2)(x)
+    # #
+    # # x = wide_res_net._layer(block_fn, 
+    # #                       n_input_plane=n_stages[3], 
+    # #                       n_output_plane=n_stages[4], 
+    # #                       n_block=4,
+    # #                       count=n, stride=2)(x)
+    #
+    # x = BatchNormalization(name='wide_res_net_batchnorm1')(x)
+    # x = Activation('relu', name='wide_res_net_relu1')(x) 
+    # # x = PReLU(name='wide_res_net_relu1')(x) 
+    # x = AveragePooling1D(pool_length=5, stride=1, name='avg_pool')(x)
+    # # ------------------------------------------------------------------------
 
-    # model.add(MaxPooling1D(pool_length=2, stride=2))
-    model.add(Flatten())
-    model.add(Dense(input_dim=4096, output_dim=1024, init='he_normal'))
-    # model.add(Activation('relu'))
-    model.add(PReLU())
-    model.add(BatchNormalization())
-    model.add(Dropout(0.5))
-    model.add(Dense(input_dim=1024, output_dim=919, init='he_normal'))
-    # model.add(Activation('softmax'))
-    # model.add(Convolution1D(nb_filter=919, filter_length=119, init='he_normal'))
-    # model.add(Flatten())
-    model.add(Activation('sigmoid'))
+    # ------------------------------------------------------------------------
+    # Residual Layers
+    # ------------------------------------------------------------------------
+    # x = Convolution1D(nb_filter=64, filter_length=3, name='conv1')(input)
+    # x = BatchNormalization(name='bn_conv1')(x)
+    # x = Activation('relu')(x)
+    # x = MaxPooling1D(pool_length=2, stride=2)(x)
+    # x = Dropout(0.2)(x)
+    #
+    # x = conv_block(input, 3, [64, 64, 256], stage=2, block='a', stride=1)
+    # x = identity_block(x, 3, [64, 64, 256], stage=2, block='b')
+    # x = identity_block(x, 3, [64, 64, 256], stage=2, block='c')
+    #
+    # x = conv_block(x, 3, [128, 128, 512], stage=3, block='a', stride=2)
+    # x = identity_block(x, 3, [128, 128, 512], stage=3, block='b')
+    # x = identity_block(x, 3, [128, 128, 512], stage=3, block='c')
+    # x = identity_block(x, 3, [128, 128, 512], stage=3, block='d')
+    #
+    # x = conv_block(x, 3, [256, 256, 1024], stage=4, block='a')
+    # x = identity_block(x, 3, [256, 256, 1024], stage=4, block='b')
+    # x = identity_block(x, 3, [256, 256, 1024], stage=4, block='c')
+    # x = identity_block(x, 3, [256, 256, 1024], stage=4, block='d')
+    # x = identity_block(x, 3, [256, 256, 1024], stage=4, block='e')
+    # x = identity_block(x, 3, [256, 256, 1024], stage=4, block='f')
+    #
+    # # x = conv_block(x, 3, [512, 512, 2048], stage=5, block='a')
+    # # x = identity_block(x, 3, [512, 512, 2048], stage=5, block='b')
+    # # x = identity_block(x, 3, [512, 512, 2048], stage=5, block='c')
+    # #
+    # x = AveragePooling1D(3, name='avg_pool')(x)
+    # ------------------------------------------------------------------------
 
-    print ('Compiling model')
-    adam = Adam(lr=3e-4)
+    # ------------------------------------------------------------------------
+    # Deep Convolutional Layers
+    # ------------------------------------------------------------------------
+    # Block 1
+    x = Convolution1D(nb_filter=64, filter_length=3, init='he_normal', name='block1_conv1')(input)
+    # x = Activation('relu', name='block1_relu1')(x)
+    x = Activation('relu')(x)
+    # x = PReLU(name='block1_prelu1')(x)
+    # x = PReLU()(x)
+    # x = BatchNormalization(name='block1_batchnorm1')(x)
+    x = BatchNormalization()(x)
+    x = MaxPooling1D(pool_length=2, stride=2, name='block1_pool1')(x)
+    x = Convolution1D(nb_filter=64, filter_length=3, init='he_normal', name='block1_conv2')(x)
+    # x = Activation('relu', name='block1_relu2')(x)
+    x = Activation('relu')(x)
+    # x = PReLU(name='block1_prelu2')(x)
+    # x = PReLU()(x)
+    # x = BatchNormalization(name='block1_batchnorm2')(x)
+    x = BatchNormalization()(x)
+    x = MaxPooling1D(pool_length=2, stride=2, name='block1_pool2')(x)
+
+    # Block 2
+    x = Convolution1D(nb_filter=128, filter_length=3, init='he_normal', name='block2_conv1')(x)
+    # x = Activation('relu', name='block2_relu1')(x)
+    x = Activation('relu')(x)
+    # x = PReLU(name='block2_prelu1')(x)
+    # x = PReLU()(x)
+    # x = BatchNormalization(name='block2_batchnorm1')(x)
+    x = BatchNormalization()(x)
+
+    x = Convolution1D(nb_filter=128, filter_length=3, init='he_normal', name='block2_conv2')(x)
+    # x = Activation('relu', name='block2_relu2')(x)
+    x = Activation('relu')(x)
+    # x = PReLU(name='block2_prelu2')(x)
+    # x = PReLU()(x)
+    # x = BatchNormalization(name='block2_batchnorm2')(x)
+    x = BatchNormalization()(x)
+
+    x = Dropout(0.2, name='block2_dropout1')(x)
+    x = MaxPooling1D(pool_length=2, stride=2, name='block2_pool1')(x)
+
+    # Block 3
+    x = Convolution1D(nb_filter=256, filter_length=3, init='he_normal', name='block3_conv1')(x)
+    # x = Activation('relu', name='block3_relu1')(x)
+    x = Activation('relu')(x)
+    # x = PReLU(name='block3_prelu1')(x)
+    # x = PReLU()(x)
+    # x = BatchNormalization(name='block3_batchnorm1')(x)
+    x = BatchNormalization()(x)
+
+    x = Dropout(0.2, name='block3_dropout1')(x)
+    x = MaxPooling1D(pool_length=2, stride=2, name='block3_pool1')(x)
+
+    x = Convolution1D(nb_filter=256, filter_length=3, init='he_normal', name='block3_conv2')(x)
+    # x = Activation('relu', name='block3_relu2')(x)
+    x = Activation('relu')(x)
+    # x = PReLU(name='block3_prelu2')(x)
+    # x = PReLU()(x)
+    # x = BatchNormalization(name='block3_batchnorm2')(x)
+    x = BatchNormalization()(x)
+
+    x = Dropout(0.2, name='block3_dropout2')(x)
+    x = MaxPooling1D(pool_length=2, stride=2, name='block3_pool2')(x)
+
+    x = Convolution1D(nb_filter=512, filter_length=3, init='he_normal', name='block4_conv1')(x)
+    # x = Activation('relu', name='block4_relu1')(x)
+    x = Activation('relu')(x)
+    # x = PReLU(name='block4_prelu1')(x)
+    # x = PReLU()(x)
+    # x = BatchNormalization(name='block4_batchnorm1')(x)
+    x = BatchNormalization()(x)
+
+    x = Dropout(0.2, name='block4_dropout1')(x)
+    x = MaxPooling1D(pool_length=2, stride=2, name='block4_pool1')(x)
+
+    x = Convolution1D(nb_filter=512, filter_length=3, init='he_normal', name='block4_conv2')(x)
+    # x = Activation('relu', name='block4_relu2')(x)
+    x = Activation('relu')(x)
+    # x = PReLU(name='block4_prelu2')(x)
+    # x = PReLU()(x)
+    # x = BatchNormalization(name='block4_batchnorm2')(x)
+    x = BatchNormalization()(x)
+
+    # x = MaxPooling1D(pool_length=2, stride=2, name='block3_pool1')(x)
+    # x = Dropout(0.2, name='block3_dropout2')(x)
+    # ------------------------------------------------------------------------
+
+    # ------------------------------------------------------------------------
+    # Maxpooling-Dropout https://arxiv.org/pdf/1512.01400
+    # ------------------------------------------------------------------------
+    x = Dropout(0.2, name='dropout1')(x)
+    x = MaxPooling1D(pool_length=2, stride=2, name='dropout1_pool1')(x)
+    # ------------------------------------------------------------------------
+
+    # ------------------------------------------------------------------------
+    # Recurrent GRU Layers
+    # ------------------------------------------------------------------------
+    x = Bidirectional(GRU(input_dim=256, output_dim=256,
+                          return_sequences=True, name='gru1'))(x)
+    x = Dropout(0.5, name='gru_dropout1')(x)
+    # ------------------------------------------------------------------------
+
+    # ------------------------------------------------------------------------
+    # Fully Connected Layers
+    # ------------------------------------------------------------------------
+    x = Flatten(name='flatten')(x)
+    x = Dense(input_dim=2048, output_dim=1024, init='he_normal', name='fc1')(x)
+    # x = Activation('relu', name='fc1_relu')(x)
+    x = Activation('relu')(x)
+    # x = PReLU(name='fc1_prelu')(x)
+    # x = PReLU()(x)
+    # x = BatchNormalization(name='fc1_batchnorm')(x)
+    x = BatchNormalization()(x)
+    x = Dropout(0.5, name='fc1_dropout')(x)
+    x = Dense(input_dim=1024, output_dim=919, init='he_normal', name='fc2')(x)
+    output = Activation('sigmoid', name='fc2_sigmoid')(x)
+    # x = Dense(output_dim=919, init='he_normal', name='fc3')(x)
+    # output = Activation('sigmoid', name='fc3_sigmoid')(x)
+    # ------------------------------------------------------------------------
+
+    model = Model(input, output)
+
+    _log.info('Compiling model')
+    # adam = Adam(clipnorm=1.)
+    # adam = Adam(lr=3e-4)
     # model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['accuracy'])
-
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
 def _mult_conv_max(model=None, nb_conv=1, nb_filter=64):
@@ -141,7 +304,7 @@ def _mult_conv_max(model=None, nb_conv=1, nb_filter=64):
     model.add(MaxPooling1D(pool_length=2, stride=2))
 
 def vgg_net():
-    print ('Building the model')
+    _log.info('Building the model')
     model = Sequential()
     _mult_conv_max(model, nb_conv=2, nb_filter=64)
     _mult_conv_max(model, nb_conv=2, nb_filter=128)
@@ -161,7 +324,7 @@ def vgg_net():
 
     # sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
     # model.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['accuracy'])
-    print ('Compiling model')
+    _log.info('Compiling model')
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
@@ -192,7 +355,7 @@ def vgg_net_16(weights='imagenet'):
                          '`None` (random initialization) or `imagenet` ' \
                          '(pre-training on ImageNet).')
 
-    print ('Building the model')
+    _log.info('Building the model')
     # Block 1
     model = Sequential()
     model.add(Convolution1D(input_dim=4, input_length=1000, 
@@ -227,11 +390,11 @@ def vgg_net_16(weights='imagenet'):
     model.add(Flatten(name='flatten'))
     model.add(Dense(4096, activation='relu', name='fc1'))
     model.add(Dense(4096, activation='relu', name='fc2'))
-    model.add(Dense(1000, activation='softmax', name='predictions'))
+    # model.add(Dense(1000, activation='softmax', name='predictions'))
 
     # load weights
     if weights == 'imagenet':
-        print('K.image_dim_ordering:', K.image_dim_ordering())
+        _log.info('K.image_dim_ordering:', K.image_dim_ordering())
         if K.image_dim_ordering() == 'th':
             weights_path = get_file('vgg_net_16.h5',
                                     TH_WEIGHTS_PATH,
@@ -255,12 +418,12 @@ def vgg_net_16(weights='imagenet'):
             if K.backend() == 'theano':
                 convert_all_kernels_in_model(model)
 
-    print ('Compiling model')
+    _log.info('Compiling model')
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
 def ResNet():
-    print ('Building the model')
+    _log.info('Building the model')
     # if K.image_dim_ordering() == 'th':
     input = Input(shape=(1000, 4)) # (channels, width, height)
     # elif K.image_dim_ordering() == 'tf':
@@ -277,18 +440,95 @@ def ResNet():
     for layer in pretrained_model.layers:
         layer.trainable = False
 
-    print ('Compiling model')
+    _log.info('Compiling model')
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
 def WideResNet():
-    print('Building the model')
+    _log.info('Building the model')
     model = wide_res_net.create_model()
 
-    print('Compiling model')
+    _log.info('Compiling model')
     sgd = SGD(lr=0.1, momentum=0.8, nesterov=True)
 
     model.compile(loss="categorical_crossentropy", optimizer=sgd, metrics=['accuracy'])
 
     return model
 
+def WaveNet():
+    desired_sample_rate = 4410
+    dilation_depth = 8  #
+    nb_stacks = 1
+
+    # The temporal-first outputs are computed from zero-padding. Setting below to True ignores these inputs:
+    train_only_in_receptive_field = True
+
+    _log.info('Building model...')
+    model = wave_net.create_model(desired_sample_rate, dilation_depth, nb_stacks)
+
+    _log.info('Compiling model...')
+    # loss = objectives.categorical_crossentropy
+    loss = objectives.binary_crossentropy
+    all_metrics = [
+        # metrics.categorical_accuracy,
+        # wave_net.categorical_mean_squared_error,
+        'accuracy'
+    ]
+    # if train_only_in_receptive_field:
+    #     loss = wave_net.skip_out_of_receptive_field(loss, desired_sample_rate, dilation_depth, nb_stacks)
+    #     all_metrics = [wave_net.skip_out_of_receptive_field(m, desired_sample_rate, dilation_depth, nb_stacks) for m in all_metrics]
+    adam = Adam(lr=3e-4)
+    # model.compile(optimizer='adam', loss=loss, metrics=all_metrics)
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    return model
+
+def WaveNetMinimal():
+    dilation_depth = 8  #
+    nb_stacks = 1
+    nb_output_bins = 4
+    nb_filters = 64
+    use_bias = False
+
+    def residual_block(x):
+        original_x = x
+        # TODO: initalization, regularization?
+        # Note: The AtrousConvolution1D with the 'causal' flag is implemented in github.com/basveeling/keras#@wavenet.
+        tanh_out = CausalAtrousConvolution1D(nb_filters, 2, atrous_rate=2 ** i, border_mode='valid', causal=True,
+                                             bias=use_bias,
+                                             name='dilated_conv_%d_tanh_s%d' % (2 ** i, s), activation='tanh')(x)
+        x = layers.Dropout(0.2)(x)
+        sigm_out = CausalAtrousConvolution1D(nb_filters, 2, atrous_rate=2 ** i, border_mode='valid', causal=True,
+                                             bias=use_bias,
+                                             name='dilated_conv_%d_sigm_s%d' % (2 ** i, s), activation='sigmoid')(x)
+        x = layers.Merge(mode='mul', name='gated_activation_%d_s%d' % (i, s))([tanh_out, sigm_out])
+
+        res_x = layers.Convolution1D(nb_filters, 1, border_mode='same', bias=use_bias)(x)
+        res_x = layers.Merge(mode='sum')([original_x, res_x])
+        return res_x
+
+    _log.info('Building model...')
+    input = Input(shape=(1000, nb_output_bins), name='input_part')
+    out = input
+    out = CausalAtrousConvolution1D(nb_filters, 2, atrous_rate=1, border_mode='valid', causal=True,
+                                    name='initial_causal_conv')(out)
+
+    for s in range(nb_stacks):
+        for i in range(0, dilation_depth + 1):
+            out = residual_block(out)
+
+    out = layers.PReLU()(out)
+    out = layers.Convolution1D(nb_filter=64, filter_length=3, border_mode='same', init='he_normal')(out)
+    out = layers.Dropout(0.2)(out)
+    out = layers.Activation('relu')(out)
+    out = layers.Convolution1D(nb_filter=64, filter_length=3, border_mode='same', init='he_normal')(out)
+    out = layers.Dropout(0.2)(out)
+    out = layers.Activation('relu')(out)
+
+    out = layers.Flatten()(out)
+    predictions = layers.Dense(919, name='fc1')(out)
+    predictions = layers.Activation('sigmoid', name="output_sigmoid")(predictions)
+    model = Model(input, predictions)
+
+    _log.info('Compiling model...')
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    return model
