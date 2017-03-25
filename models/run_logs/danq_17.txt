@@ -1,0 +1,65 @@
+Creating model from DanQ()
+Building the model
+Compiling model
+____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to
+====================================================================================================
+convolution1d_1 (Convolution1D)  (None, 975, 320)      33600       convolution1d_input_1[0][0]
+____________________________________________________________________________________________________
+maxpooling1d_1 (MaxPooling1D)    (None, 75, 320)       0           convolution1d_1[0][0]
+____________________________________________________________________________________________________
+bidirectional_1 (Bidirectional)  (None, 75, 640)       1230720     maxpooling1d_1[0][0]
+____________________________________________________________________________________________________
+flatten_1 (Flatten)              (None, 48000)         0           bidirectional_1[0][0]
+____________________________________________________________________________________________________
+dense_1 (Dense)                  (None, 925)           44400925    flatten_1[0][0]
+____________________________________________________________________________________________________
+activation_1 (Activation)        (None, 925)           0           dense_1[0][0]
+____________________________________________________________________________________________________
+dense_2 (Dense)                  (None, 919)           850994      activation_1[0][0]
+____________________________________________________________________________________________________
+activation_2 (Activation)        (None, 919)           0           dense_2[0][0]
+====================================================================================================
+Total params: 46,516,239
+Trainable params: 46,516,239
+Non-trainable params: 0
+____________________________________________________________________________________________________
+Saving models in json and yaml format to models/json/danq_17.json and  models/yaml/danq_17.yaml
+Saving weights to models/weights/danq_17.hdf5 and epoch logs to models/csv/danq_17.csv
+Retrieving train, validation, and test data
+
+The date is 03/13/2017
+The time is 02:46:26 AM
+
+Running at most 70 epochs
+Train on 4400000 samples, validate on 8000 samples
+Epoch 1/70
+4399900/4400000 [============================>.] - ETA: 0s - loss: 0.0763 - acc: 0.9792Epoch 00000: val_loss improved from inf to 0.06512, saving model to models/weights/danq_17.hdf5
+4400000/4400000 [==============================] - 8355s - loss: 0.0763 - acc: 0.9792 - val_loss: 0.0651 - val_acc: 0.9817
+Epoch 2/70
+4399900/4400000 [============================>.] - ETA: 0s - loss: 0.0744 - acc: 0.9793Epoch 00001: val_loss improved from 0.06512 to 0.06469, saving model to models/weights/danq_17.hdf5
+4400000/4400000 [==============================] - 8353s - loss: 0.0744 - acc: 0.9793 - val_loss: 0.0647 - val_acc: 0.9817
+Epoch 3/70
+4399900/4400000 [============================>.] - ETA: 0s - loss: 0.0744 - acc: 0.9794Epoch 00002: val_loss did not improve
+4400000/4400000 [==============================] - 8355s - loss: 0.0744 - acc: 0.9794 - val_loss: 0.0651 - val_acc: 0.9817
+Epoch 4/70
+4399900/4400000 [============================>.] - ETA: 0s - loss: 0.0747 - acc: 0.9794Epoch 00003: val_loss did not improve
+4400000/4400000 [==============================] - 8355s - loss: 0.0747 - acc: 0.9794 - val_loss: 0.0658 - val_acc: 0.9817
+Epoch 5/70
+4399900/4400000 [============================>.] - ETA: 0s - loss: 0.0749 - acc: 0.9793Epoch 00004: val_loss did not improve
+4400000/4400000 [==============================] - 8354s - loss: 0.0749 - acc: 0.9793 - val_loss: 0.0653 - val_acc: 0.9819
+Epoch 6/70
+4399900/4400000 [============================>.] - ETA: 0s - loss: 0.0752 - acc: 0.9793Epoch 00005: val_loss did not improve
+4400000/4400000 [==============================] - 8355s - loss: 0.0752 - acc: 0.9793 - val_loss: 0.0658 - val_acc: 0.9816
+Epoch 7/70
+4399900/4400000 [============================>.] - ETA: 0s - loss: 0.0753 - acc: 0.9793Epoch 00006: val_loss did not improve
+4400000/4400000 [==============================] - 8361s - loss: 0.0753 - acc: 0.9793 - val_loss: 0.0659 - val_acc: 0.9818
+Epoch 8/70
+4399900/4400000 [============================>.] - ETA: 0s - loss: 0.0752 - acc: 0.9793Epoch 00007: val_loss did not improve
+4400000/4400000 [==============================] - 8364s - loss: 0.0752 - acc: 0.9793 - val_loss: 0.0662 - val_acc: 0.9817
+Epoch 00007: early stopping
+
+The date is 03/13/2017
+The time is 09:20:55 PM
+
+18:34:29.073323

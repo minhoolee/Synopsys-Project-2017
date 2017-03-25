@@ -1,0 +1,50 @@
+Creating model from DanQ()
+Building the model
+Compiling model
+____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to
+====================================================================================================
+convolution1d_1 (Convolution1D)  (None, 975, 320)      33600       convolution1d_input_1[0][0]
+____________________________________________________________________________________________________
+maxpooling1d_1 (MaxPooling1D)    (None, 75, 320)       0           convolution1d_1[0][0]
+____________________________________________________________________________________________________
+bidirectional_1 (Bidirectional)  (None, 75, 640)       1640960     maxpooling1d_1[0][0]
+____________________________________________________________________________________________________
+flatten_1 (Flatten)              (None, 48000)         0           bidirectional_1[0][0]
+____________________________________________________________________________________________________
+dense_1 (Dense)                  (None, 925)           44400925    flatten_1[0][0]
+____________________________________________________________________________________________________
+activation_1 (Activation)        (None, 925)           0           dense_1[0][0]
+____________________________________________________________________________________________________
+dense_2 (Dense)                  (None, 919)           850994      activation_1[0][0]
+____________________________________________________________________________________________________
+activation_2 (Activation)        (None, 919)           0           dense_2[0][0]
+====================================================================================================
+Total params: 46,926,479
+Trainable params: 46,926,479
+Non-trainable params: 0
+____________________________________________________________________________________________________
+Saving models in json and yaml format to models/json/danq_13.json and  models/yaml/danq_13.yaml
+Saving weights to models/weights/danq_13.hdf5 and epoch logs to models/csv/danq_13.csv
+Retrieving train, validation, and test data
+
+The date is 02/28/2017
+The time is 09:05:46 PM
+
+Running at most 70 epochs
+Train on 4400000 samples, validate on 8000 samples
+Epoch 1/70
+4399600/4400000 [============================>.] - ETA: 0s - loss: 0.0748 - acc: 0.9793Epoch 00000: val_loss improved from inf to 0.06176, saving model to models/weights/danq_13.hdf5
+4400000/4400000 [==============================] - 7643s - loss: 0.0748 - acc: 0.9793 - val_loss: 0.0618 - val_acc: 0.9821
+Epoch 2/70
+4399600/4400000 [============================>.] - ETA: 0s - loss: 0.0693 - acc: 0.9799Epoch 00001: val_loss improved from 0.06176 to 0.05987, saving model to models/weights/danq_13.hdf5
+4400000/4400000 [==============================] - 7645s - loss: 0.0693 - acc: 0.9799 - val_loss: 0.0599 - val_acc: 0.9825
+Epoch 3/70
+4399600/4400000 [============================>.] - ETA: 0s - loss: 0.0682 - acc: 0.9801Epoch 00002: val_loss improved from 0.05987 to 0.05966, saving model to models/weights/danq_13.hdf5
+4400000/4400000 [==============================] - 7649s - loss: 0.0682 - acc: 0.9801 - val_loss: 0.0597 - val_acc: 0.9825
+Epoch 4/70
+4399600/4400000 [============================>.] - ETA: 0s - loss: 0.0675 - acc: 0.9802Epoch 00003: val_loss improved from 0.05966 to 0.05898, saving model to models/weights/danq_13.hdf5
+4400000/4400000 [==============================] - 7645s - loss: 0.0675 - acc: 0.9802 - val_loss: 0.0590 - val_acc: 0.9825
+Epoch 5/70
+4399600/4400000 [============================>.] - ETA: 0s - loss: 0.0671 - acc: 0.9802Epoch 00004: val_loss improved from 0.05898 to 0.05857, saving model to models/weights/danq_13.hdf5
+4400000/4400000 [==============================] - 7644s - loss: 0.0671 - acc: 0.9802 - val_loss: 0.0586 - val_acc: 0.9825

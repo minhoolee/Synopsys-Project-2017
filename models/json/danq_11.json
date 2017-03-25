@@ -1,0 +1,187 @@
+{
+  "keras_version": "1.2.2",
+  "config": [
+    {
+      "config": {
+        "trainable": true,
+        "W_regularizer": null,
+        "input_dtype": "float32",
+        "filter_length": 26,
+        "activity_regularizer": null,
+        "W_constraint": null,
+        "subsample_length": 1,
+        "input_length": 1000,
+        "nb_filter": 320,
+        "name": "convolution1d_1",
+        "input_dim": 4,
+        "border_mode": "valid",
+        "bias": true,
+        "b_regularizer": null,
+        "batch_input_shape": [
+          null,
+          1000,
+          4
+        ],
+        "init": "glorot_uniform",
+        "activation": "relu",
+        "b_constraint": null
+      },
+      "class_name": "Convolution1D"
+    },
+    {
+      "config": {
+        "trainable": true,
+        "border_mode": "valid",
+        "stride": 13,
+        "pool_length": 13,
+        "name": "maxpooling1d_1"
+      },
+      "class_name": "MaxPooling1D"
+    },
+    {
+      "config": {
+        "trainable": true,
+        "merge_mode": "concat",
+        "name": "bidirectional_1",
+        "layer": {
+          "config": {
+            "unroll": false,
+            "dropout_U": 0.5,
+            "input_dtype": "float32",
+            "activation": "tanh",
+            "go_backwards": false,
+            "output_dim": 320,
+            "stateful": false,
+            "inner_activation": "hard_sigmoid",
+            "name": "lstm_1",
+            "trainable": true,
+            "W_regularizer": null,
+            "dropout_W": 0.2,
+            "consume_less": "cpu",
+            "input_length": null,
+            "U_regularizer": null,
+            "forget_bias_init": "one",
+            "input_dim": 320,
+            "return_sequences": true,
+            "b_regularizer": null,
+            "batch_input_shape": [
+              null,
+              null,
+              320
+            ],
+            "init": "glorot_uniform",
+            "inner_init": "orthogonal"
+          },
+          "class_name": "LSTM"
+        }
+      },
+      "class_name": "Bidirectional"
+    },
+    {
+      "config": {
+        "trainable": true,
+        "merge_mode": "concat",
+        "name": "bidirectional_2",
+        "layer": {
+          "config": {
+            "trainable": true,
+            "W_regularizer": null,
+            "U_regularizer": null,
+            "dropout_W": 0.2,
+            "unroll": false,
+            "dropout_U": 0.5,
+            "input_dtype": "float32",
+            "consume_less": "cpu",
+            "activation": "tanh",
+            "go_backwards": false,
+            "init": "glorot_uniform",
+            "output_dim": 320,
+            "input_length": null,
+            "input_dim": 320,
+            "return_sequences": true,
+            "stateful": false,
+            "b_regularizer": null,
+            "inner_activation": "hard_sigmoid",
+            "name": "gru_1",
+            "inner_init": "orthogonal",
+            "batch_input_shape": [
+              null,
+              null,
+              320
+            ]
+          },
+          "class_name": "GRU"
+        }
+      },
+      "class_name": "Bidirectional"
+    },
+    {
+      "config": {
+        "trainable": true,
+        "name": "flatten_1"
+      },
+      "class_name": "Flatten"
+    },
+    {
+      "config": {
+        "trainable": true,
+        "W_regularizer": null,
+        "input_dtype": "float32",
+        "W_constraint": null,
+        "activation": "linear",
+        "activity_regularizer": null,
+        "name": "dense_1",
+        "input_dim": 48000,
+        "output_dim": 925,
+        "bias": true,
+        "b_regularizer": null,
+        "batch_input_shape": [
+          null,
+          48000
+        ],
+        "init": "glorot_uniform",
+        "b_constraint": null
+      },
+      "class_name": "Dense"
+    },
+    {
+      "config": {
+        "trainable": true,
+        "name": "activation_1",
+        "activation": "relu"
+      },
+      "class_name": "Activation"
+    },
+    {
+      "config": {
+        "trainable": true,
+        "W_regularizer": null,
+        "input_dtype": "float32",
+        "W_constraint": null,
+        "activation": "linear",
+        "activity_regularizer": null,
+        "name": "dense_2",
+        "input_dim": 925,
+        "output_dim": 919,
+        "bias": true,
+        "b_regularizer": null,
+        "batch_input_shape": [
+          null,
+          925
+        ],
+        "init": "glorot_uniform",
+        "b_constraint": null
+      },
+      "class_name": "Dense"
+    },
+    {
+      "config": {
+        "trainable": true,
+        "name": "activation_2",
+        "activation": "sigmoid"
+      },
+      "class_name": "Activation"
+    }
+  ],
+  "class_name": "Sequential"
+}
