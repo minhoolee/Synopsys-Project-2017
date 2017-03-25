@@ -12,7 +12,6 @@ from keras.models import load_model, model_from_json, model_from_yaml
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger, TensorBoard, ReduceLROnPlateau
 
 from src.data.data_utils import Dataset, DataFile
-from src.visualization.plot_train_valid import plot_auc_curve
 from src.logging import log_utils
 import src.models.create_models as models
 

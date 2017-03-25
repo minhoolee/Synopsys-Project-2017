@@ -1,9 +1,34 @@
 Synopsys Project 2016-2017
 ==============================
+### Leveraging Deep Learning to Derive _De Novo_ Epigenetic Mechanisms from _PPARGC1A_ to Account for Missing Heritability in Type II Diabetes Mellitus
 
-Leveraging Deep Learning to Derive De Novo Epigenetic Mechanisms from PPARGC1A to Account for Missing Heritability in Type II Diabetes Mellitus
+### Synopsys Competition Tri-Fold
+<img src="https://cloud.githubusercontent.com/assets/10465228/24325410/a0631506-1155-11e7-8f5e-756332d353d1.jpg"/>
 
-Download [processed data from DeepSEA](http://deepsea.princeton.edu/media/code/deepsea_train_bundle.v0.9.tar.gz) and move them to `data/processed/`
+The focus of the project was in using deep learning to predict novel epigenetic 
+mechanisms like __DNase I sites__, __histone modifications__, and 
+__transcription factor binding sites__ from raw genomic sequences. Type II 
+diabetes (T2D) is a common disease that affects millions of people each year, 
+but as of today, only around 10% of its heritability has been explained. 
+Researchers speculate that this is because epigenetics is heavily involved, so 
+my project was designed to interpret millions of samples and hundreds of 
+epigenetic regulators to be able understand the combinatorial effects of these 
+epigenetic mechanisms.
+
+I conducted this independent research project for the Synopsys science fair as 
+a high school junior. In order to train my models, I built my own [custom 
+PC](https://pcpartpicker.com/user/minhoolee/saved/GZskLk). I would like to 
+thank my mentor, Renee Fallon, in providing me the textbooks to read about 
+genetics.
+
+### Custom Built PC 
+<img src="https://cloud.githubusercontent.com/assets/10465228/24325200/e7be4be6-1150-11e7-82ef-5f7c4ba73ca3.JPG"/>
+
+## Steps for reproducing results
+
+### Step 1. Get data
+Download [processed data from DeepSEA](http://deepsea.princeton.edu/media/code/deepsea_train_bundle.v0.9.tar.gz) 
+and move them to `data/processed/`
 Data is processed in the following manner:
 
 > Data on histone modifications, DNase I hypersensitive sites, and 
@@ -19,6 +44,21 @@ at least one transcription factor site (400 bp sequence paddings for genome
 sequence context). The data is split into test, train, and validation sets, and 
 the sets are separated based off of chromosomes in order to ensure that the 
 model can be tested for high bias.
+
+### Step 2. Create model
+Create a method in src/models/create_models.py that constructs a Keras model 
+(sequential, functional, etc.) and then returns it.
+
+### Step 3. Train model
+Run `make train MODEL_FUNC='<method from step 2>' MODEL_NAME='<some unique identifier>'`
+
+### Step 4. Test model and generate predictions
+Run `make test MODEL_FUNC='<same as from step 3>' MODEL_NAME='<same as from step 3>'`
+
+### Step 5. Generating performance (ROC/PR, stdenv, etc.) scores and visualizations
+See notebooks/ and run the code after "Execute the following" headers. Make 
+sure to run them with the Theano backend for Keras because the models were all 
+trained on Theano.
 
 Project Organization
 ------------
@@ -80,7 +120,6 @@ Project Organization
     │       └── visualize.py
     │
     └── tox.ini                   <- tox file with settings for running tox; see tox.testrun.org
-
 
 --------
 
