@@ -13,7 +13,7 @@ MODELS = src/models
 VISUALIZATION = src/visualization
 LOGS_DIR = models/run_logs
 MODEL_NAME = ${MODEL}
-MODEL_FUNC = ${MODEL_FUNC}
+# MODEL_FUNC = ${MODEL_FUNC}
 MODEL_ARGS_STR = ${MODEL_ARGS}
 ADDITIONAL_ARGS = ${ARGS}
 WEIGHTS_DIR = models/weights
@@ -97,6 +97,7 @@ PYTHON3.5_ENV:
 # and write (unbuffered) run output to a txt file with the specified model name
 train: 
 	@$(PYTHON_INTERPRETER) -u $(MODELS)/train_model.py \
+		$(MODEL_NAME) \
 		$(MODEL_FUNC) \
 		$(WEIGHTS_DIR)/$(MODEL_NAME).hdf5 \
 		$(JSON_DIR)/$(MODEL_NAME).json \
@@ -107,9 +108,11 @@ train:
 		$(ADDITIONAL_ARGS) | tee .tmp; \
 		$(PRINT_TO_TXT)
 
+# TODO: Make testing and training be from the same file
 test:
 	@$(PYTHON_INTERPRETER) -u $(MODELS)/test_model.py \
-		$(MODEL_FUNC) \
+		$(MODEL_NAME) \
+		${MODEL_FUNC} \
 		$(WEIGHTS_DIR)/$(MODEL_NAME).hdf5 \
 		$(JSON_DIR)/$(MODEL_NAME).json \
 		$(YAML_DIR)/$(MODEL_NAME).yaml \
