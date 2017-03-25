@@ -83,3 +83,6 @@ target/
 
 # Remove model weights
 *.hdf5*
+
+# Remove all large files like in predictions/ or data/
+*.mat*
