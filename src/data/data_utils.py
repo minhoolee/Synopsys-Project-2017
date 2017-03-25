@@ -6,6 +6,8 @@ from enum import Enum
 
 from collections import namedtuple as tuple
 
+# from keras.preprocessing.image import Iterator # For random batch sizes
+
 class Dataset(Enum):
     TRAIN=0
     VALID=1
@@ -17,7 +19,10 @@ class DataFile(Enum):
     Y=2
 
 class ModelData(object):
-
+    """
+    Warning: Do not use generators with this or previous versions because
+    they do not generate random permutations of the data yet
+    """
     def __init__(self,
                  shrink_size=(1.0, 1.0, 1.0),
                  batch_size=100,
@@ -135,9 +140,9 @@ class ModelData(object):
                           (X_valid, y_valid), 
                           (X_test, y_test))
         """
-        return (self.get_train_tuple(),
-                self.get_valid_tuple(),
-                self.get_test_tuple())
+        return (self.get_train_tuple(shrink_size=shrink_size[Dataset.TRAIN.value]),
+                self.get_valid_tuple(shrink_size=shrink_size[Dataset.VALID.value]),
+                self.get_test_tuple(shrink_size=shrink_size[Dataset.TEST.value]))
 
     def get_train_tuple(self, shrink_size=None):
         """
@@ -461,3 +466,7 @@ class ModelData(object):
             size of each mini batch
         """
         return self._batch_size_
+
+
+# TODO: call Keras Iterator to generate random minibatches
+# def RandomBatchGenerator(Iterator):

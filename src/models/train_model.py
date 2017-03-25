@@ -4,54 +4,46 @@ import scipy.io
 import time
 import sys
 import argparse
-import src.models.create_models as models
+
+# from datetime import timedelta
 
 from keras import backend as K
 from keras.preprocessing import sequence
 from keras.optimizers import RMSprop
 
-from src.models.keras_model_utils import save_model, get_model, train_model, test_model
-from src.data.data_utils import ModelData
 if (K.backend() == 'tensorflow'):
     from keras.backend.tensorflow_backend import set_session
     import tensorflow as tf
 
-TRUNCATE_DATASET_RATIO = 0.5
+from src.models.keras_model_utils import Model
+from src.data.data_utils import ModelData
+from src.logging import log_utils
+
+_log = log_utils.logger(__name__)
+
+#TRUNCATE_TRAIN_RATIO = 0.01
+TRUNCATE_TRAIN_RATIO = 1
 MAX_EPOCH = 70
-BATCH_SIZE=100
+BATCH_SIZE = 400
+# BATCH_SIZE = 100
 # Temporary
-TRAIN_SAMPLES=2200000
-VALID_SAMPLES=8000
-TEST_SAMPLES=455024
+TRAIN_SAMPLES = 4400000 * TRUNCATE_TRAIN_RATIO 
+VALID_SAMPLES = 8000
+TEST_SAMPLES = 455024
 
-def print_method_header(method_name=None, *args):
-    print ("%s(" % method_name, end='')
-    if (len(args) > 0):
-        print (args[0], end='')
-    for arg in args[1:]:
-        print (", %s" % arg, end='')
-    print (")")
+def pop_layer(model):
+    if not model.outputs:
+        raise Exception('Sequential model cannot be popped: model is empty.')
 
-def replace_at_ind(tup=None, ind=None, val=None):
-    return tup[:ind] + (val,) + tup[ind+1:]
-
-def create_model(model_name=None, *args):
-    """ Set the model that is being used by the name of the function """
-    print ("\nCreating model from ", end='')
-    print_method_header(model_name, *args)
-
-    # If there are any 'None', turn them into None
-    for i, arg in enumerate(args):
-        if arg == 'None':
-            args = replace_at_ind(args, ind=i, val=None)
-
-    if (hasattr(models, model_name) == False):
-        sys.exit('No such model in src/models/create_models')
-    return getattr(models, model_name)(*args)
-
-def print_date_time():
-    print ('\nThe date is ' + time.strftime('%m/%d/%Y'))
-    print ('The time is ' + time.strftime('%I:%M:%S %p') + '\n')
+    model.layers.pop()
+    if not model.layers:
+        model.outputs = []
+        model.inbound_nodes = []
+        model.outbound_nodes = []
+    else:
+        model.layers[-1].outbound_nodes = []
+        model.outputs = [model.layers[-1].output]
+    model.built = False
 
 def main(argv):
 
@@ -60,7 +52,8 @@ def main(argv):
         description='Run a Keras model on genetic sequences '
         + 'to derive epigenetic mechanisms')
 
-    parser.add_argument('model_name', metavar='MODEL', help="The name of the function in src/models/create_models to create a model with")
+    parser.add_argument('model_name', metavar='MODEL_NAME', help="The unique name of the model to create")
+    parser.add_argument('create_fn', metavar='MODEL_FUNC', help="The name of the function in src/models/create_models to create a model with")
     parser.add_argument('weights_file', metavar='WEIGHTS_FILE', help="The file (.hdf5) to store the model's weights")
     parser.add_argument('json_file', metavar='JSON_FILE', help="The file (.json) to store the model's architecture in JSON")
     parser.add_argument('yaml_file', metavar='YAML_FILE', help="The file (.yaml) to store the model's architecture in YAML")
@@ -80,34 +73,68 @@ def main(argv):
     # Create the model using the optional parameters passed in
     if (not args.model_args):
         args.model_args = []
-    model = create_model(args.model_name, *args.model_args)
+
+    model = Model(name=args.model_name)
+    model.create_from(args.create_fn, *args.model_args)
+
+    # model.load_from('models/json/conv_net_large_res_5.json') # Temporary solution to running a model under a new name
+    # model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
     model.summary()
 
-    print ('Saving models in json and yaml format to '
-           + args.json_file + ' and  ' + args.yaml_file)
-    print ('Saving weights to ' + args.weights_file
-           + ' and epoch logs to ' + args.log_file)
-    save_model(model, json_file=args.json_file, yaml_file=args.yaml_file)
+    _log.info('\n')
+    # _log.info('Saving model to file system...')
+    # model.save_to(json_file=args.json_file, yaml_file=args.yaml_file)
 
-    print ('Retrieving train, validation, and test data')
-    # train, valid, test = get_data_tuples(shrink_size=(TRUNCATE_DATASET_RATIO, 1, 1))
-    data = ModelData()
-    train, valid, test = data.get_data_tuples_generator(shrink_size=(TRUNCATE_DATASET_RATIO, 1, 1), 
-                                                        nb_samples=(TRAIN_SAMPLES, VALID_SAMPLES, TEST_SAMPLES),
-                                                        batch_size=BATCH_SIZE)
-    print_date_time()
+    _log.info('Loading model weights...')
+    model.load_weights(weights_file=args.weights_file, by_name=True)
+    # model.load_weights(weights_file='models/weights/danq_17.hdf5', by_name=True)
+    # pop_layer(model)
+    # model.layers.pop(); # Get rid of fc2 layer
+    # model.outputs = [model.layers[-1].output]
+    # model.output_layers = [model.layers[-1]]
+    # model.layers[-1].outbound_notes = []
 
-    train_model(model,
-                train=train, valid=valid,
+
+    data = ModelData(batch_size=BATCH_SIZE)
+    # Shrink the training dataset to half of its original size
+    # train, valid, test = data.get_data_tuples_generator(shrink_size=(TRUNCATE_TRAIN_RATIO, 1, 1), 
+    #                                                     nb_samples=(TRAIN_SAMPLES, VALID_SAMPLES, TEST_SAMPLES))
+    # train, valid, test = data.get_data_tuples(shrink_size=(TRUNCATE_TRAIN_RATIO, 1, 1))
+    _log.info('Retrieving training data...')
+    train = data.get_train_tuple(shrink_size=TRUNCATE_TRAIN_RATIO)
+
+    _log.info('Retrieving validation data...')
+    valid = data.get_valid_tuple()
+
+    log_utils.print_date_time(_log)
+    _log.info('\n')
+    start = time.time()
+
+    _log.info('Training model...')
+    model.train(train=train, valid=valid,
+                weights_file=args.weights_file,
                 max_epoch=MAX_EPOCH,
                 batch_size=BATCH_SIZE,
                 nb_samples=(TRAIN_SAMPLES, VALID_SAMPLES),
-                weights_file=args.weights_file,
                 log_file=args.log_file,
                 tensorboard_dir=args.tensorboard_dir)
 
-    print_date_time()
-    test_model(model, test=test, nb_samples=TEST_SAMPLES)
+    _log.info('\n')
+    log_utils.print_date_time(_log)
+    log_utils.print_elapsed_time(_log, start=start, end=time.time())
+    _log.info('\n')
+
+    _log.info('Retrieving testing data...')
+    test = data.get_test_tuple()
+
+    _log.info('\n')
+    _log.info('Testing model...')
+    model.test(test=test, nb_samples=TEST_SAMPLES)
+
+    _log.info('\n')
+    _log.info('Creating predictions...')
+    model.predict(test.X_test)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

@@ -1,3 +1,8 @@
+"""
+Different deep learning models whose architectures were tested
+
+conv_net() is the final model that was used for the competition
+"""
 
 import keras.backend as K
 from keras import layers, metrics, objectives
@@ -24,6 +29,9 @@ from src.logging import log_utils
 _log = log_utils.logger(__name__)
 
 def DanQ():
+    """
+    https://doi.org/10.1093/nar/gkw226
+    """
     _log.info('Building the model')
     model = Sequential()
     model.add(Convolution1D(input_dim=4,
@@ -67,7 +75,6 @@ def conv_net():
     # # ------------------------------------------------------------------------
     # # Wide Residual Layers http://arxiv.org/abs/1605.07146
     # # ------------------------------------------------------------------------
-
     # k = 10  # 'widen_factor'; pg 8, table 5 indicates best value(4.00) CIFAR-10
     # depth = 16 # table 5 on page 8 indicates best value (4.00) CIFAR-10
     # dropout_probability = 0.3 # table 6 on page 10 indicates best value (3.89) CIFAR-10
@@ -111,18 +118,18 @@ def conv_net():
     #                       n_block=2,
     #                       count=n, stride=2)(x)
     #
-    # # # "Stage 3 (spatial size: 8x8)"
-    # # x = wide_res_net._layer(block_fn, 
-    # #                       n_input_plane=n_stages[2], 
-    # #                       n_output_plane=n_stages[3], 
-    # #                       n_block=3,
-    # #                       count=n, stride=2)(x)
-    # #
-    # # x = wide_res_net._layer(block_fn, 
-    # #                       n_input_plane=n_stages[3], 
-    # #                       n_output_plane=n_stages[4], 
-    # #                       n_block=4,
-    # #                       count=n, stride=2)(x)
+    # # "Stage 3 (spatial size: 8x8)"
+    # x = wide_res_net._layer(block_fn, 
+    #                       n_input_plane=n_stages[2], 
+    #                       n_output_plane=n_stages[3], 
+    #                       n_block=3,
+    #                       count=n, stride=2)(x)
+    #
+    # x = wide_res_net._layer(block_fn, 
+    #                       n_input_plane=n_stages[3], 
+    #                       n_output_plane=n_stages[4], 
+    #                       n_block=4,
+    #                       count=n, stride=2)(x)
     #
     # x = BatchNormalization(name='wide_res_net_batchnorm1')(x)
     # x = Activation('relu', name='wide_res_net_relu1')(x) 
@@ -167,37 +174,22 @@ def conv_net():
     # ------------------------------------------------------------------------
     # Block 1
     x = Convolution1D(nb_filter=64, filter_length=3, init='he_normal', name='block1_conv1')(input)
-    # x = Activation('relu', name='block1_relu1')(x)
     x = Activation('relu')(x)
-    # x = PReLU(name='block1_prelu1')(x)
-    # x = PReLU()(x)
-    # x = BatchNormalization(name='block1_batchnorm1')(x)
     x = BatchNormalization()(x)
     x = MaxPooling1D(pool_length=2, stride=2, name='block1_pool1')(x)
+
     x = Convolution1D(nb_filter=64, filter_length=3, init='he_normal', name='block1_conv2')(x)
-    # x = Activation('relu', name='block1_relu2')(x)
     x = Activation('relu')(x)
-    # x = PReLU(name='block1_prelu2')(x)
-    # x = PReLU()(x)
-    # x = BatchNormalization(name='block1_batchnorm2')(x)
     x = BatchNormalization()(x)
     x = MaxPooling1D(pool_length=2, stride=2, name='block1_pool2')(x)
 
     # Block 2
     x = Convolution1D(nb_filter=128, filter_length=3, init='he_normal', name='block2_conv1')(x)
-    # x = Activation('relu', name='block2_relu1')(x)
     x = Activation('relu')(x)
-    # x = PReLU(name='block2_prelu1')(x)
-    # x = PReLU()(x)
-    # x = BatchNormalization(name='block2_batchnorm1')(x)
     x = BatchNormalization()(x)
 
     x = Convolution1D(nb_filter=128, filter_length=3, init='he_normal', name='block2_conv2')(x)
-    # x = Activation('relu', name='block2_relu2')(x)
     x = Activation('relu')(x)
-    # x = PReLU(name='block2_prelu2')(x)
-    # x = PReLU()(x)
-    # x = BatchNormalization(name='block2_batchnorm2')(x)
     x = BatchNormalization()(x)
 
     x = Dropout(0.2, name='block2_dropout1')(x)
@@ -205,48 +197,29 @@ def conv_net():
 
     # Block 3
     x = Convolution1D(nb_filter=256, filter_length=3, init='he_normal', name='block3_conv1')(x)
-    # x = Activation('relu', name='block3_relu1')(x)
     x = Activation('relu')(x)
-    # x = PReLU(name='block3_prelu1')(x)
-    # x = PReLU()(x)
-    # x = BatchNormalization(name='block3_batchnorm1')(x)
     x = BatchNormalization()(x)
 
     x = Dropout(0.2, name='block3_dropout1')(x)
     x = MaxPooling1D(pool_length=2, stride=2, name='block3_pool1')(x)
 
     x = Convolution1D(nb_filter=256, filter_length=3, init='he_normal', name='block3_conv2')(x)
-    # x = Activation('relu', name='block3_relu2')(x)
     x = Activation('relu')(x)
-    # x = PReLU(name='block3_prelu2')(x)
-    # x = PReLU()(x)
-    # x = BatchNormalization(name='block3_batchnorm2')(x)
     x = BatchNormalization()(x)
 
     x = Dropout(0.2, name='block3_dropout2')(x)
     x = MaxPooling1D(pool_length=2, stride=2, name='block3_pool2')(x)
 
     x = Convolution1D(nb_filter=512, filter_length=3, init='he_normal', name='block4_conv1')(x)
-    # x = Activation('relu', name='block4_relu1')(x)
     x = Activation('relu')(x)
-    # x = PReLU(name='block4_prelu1')(x)
-    # x = PReLU()(x)
-    # x = BatchNormalization(name='block4_batchnorm1')(x)
     x = BatchNormalization()(x)
 
     x = Dropout(0.2, name='block4_dropout1')(x)
     x = MaxPooling1D(pool_length=2, stride=2, name='block4_pool1')(x)
 
     x = Convolution1D(nb_filter=512, filter_length=3, init='he_normal', name='block4_conv2')(x)
-    # x = Activation('relu', name='block4_relu2')(x)
     x = Activation('relu')(x)
-    # x = PReLU(name='block4_prelu2')(x)
-    # x = PReLU()(x)
-    # x = BatchNormalization(name='block4_batchnorm2')(x)
     x = BatchNormalization()(x)
-
-    # x = MaxPooling1D(pool_length=2, stride=2, name='block3_pool1')(x)
-    # x = Dropout(0.2, name='block3_dropout2')(x)
     # ------------------------------------------------------------------------
 
     # ------------------------------------------------------------------------
@@ -269,25 +242,16 @@ def conv_net():
     # ------------------------------------------------------------------------
     x = Flatten(name='flatten')(x)
     x = Dense(input_dim=2048, output_dim=1024, init='he_normal', name='fc1')(x)
-    # x = Activation('relu', name='fc1_relu')(x)
     x = Activation('relu')(x)
-    # x = PReLU(name='fc1_prelu')(x)
-    # x = PReLU()(x)
-    # x = BatchNormalization(name='fc1_batchnorm')(x)
     x = BatchNormalization()(x)
     x = Dropout(0.5, name='fc1_dropout')(x)
     x = Dense(input_dim=1024, output_dim=919, init='he_normal', name='fc2')(x)
     output = Activation('sigmoid', name='fc2_sigmoid')(x)
-    # x = Dense(output_dim=919, init='he_normal', name='fc3')(x)
-    # output = Activation('sigmoid', name='fc3_sigmoid')(x)
     # ------------------------------------------------------------------------
 
     model = Model(input, output)
 
     _log.info('Compiling model')
-    # adam = Adam(clipnorm=1.)
-    # adam = Adam(lr=3e-4)
-    # model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
@@ -304,6 +268,9 @@ def _mult_conv_max(model=None, nb_conv=1, nb_filter=64):
     model.add(MaxPooling1D(pool_length=2, stride=2))
 
 def vgg_net():
+    """
+    https://arxiv.org/pdf/1409.1556.pdf
+    """
     _log.info('Building the model')
     model = Sequential()
     _mult_conv_max(model, nb_conv=2, nb_filter=64)
@@ -423,6 +390,9 @@ def vgg_net_16(weights='imagenet'):
     return model
 
 def ResNet():
+    """
+    [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
+    """
     _log.info('Building the model')
     # if K.image_dim_ordering() == 'th':
     input = Input(shape=(1000, 4)) # (channels, width, height)
@@ -445,6 +415,9 @@ def ResNet():
     return model
 
 def WideResNet():
+    """
+    http://arxiv.org/abs/1605.07146
+    """
     _log.info('Building the model')
     model = wide_res_net.create_model()
 
@@ -456,6 +429,9 @@ def WideResNet():
     return model
 
 def WaveNet():
+    """
+    https://arxiv.org/abs/1609.03499
+    """
     desired_sample_rate = 4410
     dilation_depth = 8  #
     nb_stacks = 1
@@ -483,6 +459,9 @@ def WaveNet():
     return model
 
 def WaveNetMinimal():
+    """
+    Repurposed for my use from https://arxiv.org/abs/1609.03499
+    """
     dilation_depth = 8  #
     nb_stacks = 1
     nb_output_bins = 4
