@@ -86,3 +86,6 @@ target/
 
 # Remove all large files like in predictions/ or data/
 *.mat*
+
+# Remove batch logging due to file size
+*batch.csv*
