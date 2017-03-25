@@ -1,0 +1,647 @@
+class_name: Model
+config:
+  input_layers:
+  - [input_part, 0, 0]
+  layers:
+  - class_name: InputLayer
+    config:
+      batch_input_shape: !!python/tuple [null, 1000, 4]
+      input_dtype: float32
+      name: input_part
+      sparse: false
+    inbound_nodes: []
+    name: input_part
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      atrous_rate: 1, b_constraint: null, b_regularizer: null, bias: true, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: initial_causal_conv, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [input_part, 0, 0]
+    name: initial_causal_conv
+  - class_name: Dropout
+    config: {name: dropout_1, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [initial_causal_conv, 0, 0]
+    name: dropout_1
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: tanh, activity_regularizer: null,
+      atrous_rate: 1, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_1_tanh_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [initial_causal_conv, 0, 0]
+    name: dilated_conv_1_tanh_s0
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: sigmoid, activity_regularizer: null,
+      atrous_rate: 1, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_1_sigm_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [dropout_1, 0, 0]
+    name: dilated_conv_1_sigm_s0
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: mul
+      mode_type: raw
+      name: gated_activation_0_s0
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [dilated_conv_1_tanh_s0, 0, 0]
+      - [dilated_conv_1_sigm_s0, 0, 0]
+    name: gated_activation_0_s0
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: false, border_mode: same, filter_length: 1,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_1,
+      nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [gated_activation_0_s0, 0, 0]
+    name: convolution1d_1
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_1
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [initial_causal_conv, 0, 0]
+      - [convolution1d_1, 0, 0]
+    name: merge_1
+  - class_name: Dropout
+    config: {name: dropout_2, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [merge_1, 0, 0]
+    name: dropout_2
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: tanh, activity_regularizer: null,
+      atrous_rate: 2, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_2_tanh_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [merge_1, 0, 0]
+    name: dilated_conv_2_tanh_s0
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: sigmoid, activity_regularizer: null,
+      atrous_rate: 2, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_2_sigm_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [dropout_2, 0, 0]
+    name: dilated_conv_2_sigm_s0
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: mul
+      mode_type: raw
+      name: gated_activation_1_s0
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [dilated_conv_2_tanh_s0, 0, 0]
+      - [dilated_conv_2_sigm_s0, 0, 0]
+    name: gated_activation_1_s0
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: false, border_mode: same, filter_length: 1,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_2,
+      nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [gated_activation_1_s0, 0, 0]
+    name: convolution1d_2
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_2
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [merge_1, 0, 0]
+      - [convolution1d_2, 0, 0]
+    name: merge_2
+  - class_name: Dropout
+    config: {name: dropout_3, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [merge_2, 0, 0]
+    name: dropout_3
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: tanh, activity_regularizer: null,
+      atrous_rate: 4, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_4_tanh_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [merge_2, 0, 0]
+    name: dilated_conv_4_tanh_s0
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: sigmoid, activity_regularizer: null,
+      atrous_rate: 4, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_4_sigm_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [dropout_3, 0, 0]
+    name: dilated_conv_4_sigm_s0
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: mul
+      mode_type: raw
+      name: gated_activation_2_s0
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [dilated_conv_4_tanh_s0, 0, 0]
+      - [dilated_conv_4_sigm_s0, 0, 0]
+    name: gated_activation_2_s0
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: false, border_mode: same, filter_length: 1,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_3,
+      nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [gated_activation_2_s0, 0, 0]
+    name: convolution1d_3
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_3
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [merge_2, 0, 0]
+      - [convolution1d_3, 0, 0]
+    name: merge_3
+  - class_name: Dropout
+    config: {name: dropout_4, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [merge_3, 0, 0]
+    name: dropout_4
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: tanh, activity_regularizer: null,
+      atrous_rate: 8, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_8_tanh_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [merge_3, 0, 0]
+    name: dilated_conv_8_tanh_s0
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: sigmoid, activity_regularizer: null,
+      atrous_rate: 8, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_8_sigm_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [dropout_4, 0, 0]
+    name: dilated_conv_8_sigm_s0
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: mul
+      mode_type: raw
+      name: gated_activation_3_s0
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [dilated_conv_8_tanh_s0, 0, 0]
+      - [dilated_conv_8_sigm_s0, 0, 0]
+    name: gated_activation_3_s0
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: false, border_mode: same, filter_length: 1,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_4,
+      nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [gated_activation_3_s0, 0, 0]
+    name: convolution1d_4
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_4
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [merge_3, 0, 0]
+      - [convolution1d_4, 0, 0]
+    name: merge_4
+  - class_name: Dropout
+    config: {name: dropout_5, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [merge_4, 0, 0]
+    name: dropout_5
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: tanh, activity_regularizer: null,
+      atrous_rate: 16, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_16_tanh_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [merge_4, 0, 0]
+    name: dilated_conv_16_tanh_s0
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: sigmoid, activity_regularizer: null,
+      atrous_rate: 16, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_16_sigm_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [dropout_5, 0, 0]
+    name: dilated_conv_16_sigm_s0
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: mul
+      mode_type: raw
+      name: gated_activation_4_s0
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [dilated_conv_16_tanh_s0, 0, 0]
+      - [dilated_conv_16_sigm_s0, 0, 0]
+    name: gated_activation_4_s0
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: false, border_mode: same, filter_length: 1,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_5,
+      nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [gated_activation_4_s0, 0, 0]
+    name: convolution1d_5
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_5
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [merge_4, 0, 0]
+      - [convolution1d_5, 0, 0]
+    name: merge_5
+  - class_name: Dropout
+    config: {name: dropout_6, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [merge_5, 0, 0]
+    name: dropout_6
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: tanh, activity_regularizer: null,
+      atrous_rate: 32, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_32_tanh_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [merge_5, 0, 0]
+    name: dilated_conv_32_tanh_s0
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: sigmoid, activity_regularizer: null,
+      atrous_rate: 32, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_32_sigm_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [dropout_6, 0, 0]
+    name: dilated_conv_32_sigm_s0
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: mul
+      mode_type: raw
+      name: gated_activation_5_s0
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [dilated_conv_32_tanh_s0, 0, 0]
+      - [dilated_conv_32_sigm_s0, 0, 0]
+    name: gated_activation_5_s0
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: false, border_mode: same, filter_length: 1,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_6,
+      nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [gated_activation_5_s0, 0, 0]
+    name: convolution1d_6
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_6
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [merge_5, 0, 0]
+      - [convolution1d_6, 0, 0]
+    name: merge_6
+  - class_name: Dropout
+    config: {name: dropout_7, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [merge_6, 0, 0]
+    name: dropout_7
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: tanh, activity_regularizer: null,
+      atrous_rate: 64, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_64_tanh_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [merge_6, 0, 0]
+    name: dilated_conv_64_tanh_s0
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: sigmoid, activity_regularizer: null,
+      atrous_rate: 64, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_64_sigm_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [dropout_7, 0, 0]
+    name: dilated_conv_64_sigm_s0
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: mul
+      mode_type: raw
+      name: gated_activation_6_s0
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [dilated_conv_64_tanh_s0, 0, 0]
+      - [dilated_conv_64_sigm_s0, 0, 0]
+    name: gated_activation_6_s0
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: false, border_mode: same, filter_length: 1,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_7,
+      nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [gated_activation_6_s0, 0, 0]
+    name: convolution1d_7
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_7
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [merge_6, 0, 0]
+      - [convolution1d_7, 0, 0]
+    name: merge_7
+  - class_name: Dropout
+    config: {name: dropout_8, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [merge_7, 0, 0]
+    name: dropout_8
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: tanh, activity_regularizer: null,
+      atrous_rate: 128, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_128_tanh_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [merge_7, 0, 0]
+    name: dilated_conv_128_tanh_s0
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: sigmoid, activity_regularizer: null,
+      atrous_rate: 128, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_128_sigm_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [dropout_8, 0, 0]
+    name: dilated_conv_128_sigm_s0
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: mul
+      mode_type: raw
+      name: gated_activation_7_s0
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [dilated_conv_128_tanh_s0, 0, 0]
+      - [dilated_conv_128_sigm_s0, 0, 0]
+    name: gated_activation_7_s0
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: false, border_mode: same, filter_length: 1,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_8,
+      nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [gated_activation_7_s0, 0, 0]
+    name: convolution1d_8
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_8
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [merge_7, 0, 0]
+      - [convolution1d_8, 0, 0]
+    name: merge_8
+  - class_name: Dropout
+    config: {name: dropout_9, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [merge_8, 0, 0]
+    name: dropout_9
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: tanh, activity_regularizer: null,
+      atrous_rate: 256, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_256_tanh_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [merge_8, 0, 0]
+    name: dilated_conv_256_tanh_s0
+  - class_name: CausalAtrousConvolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: sigmoid, activity_regularizer: null,
+      atrous_rate: 256, b_constraint: null, b_regularizer: null, bias: false, border_mode: valid,
+      filter_length: 2, init: glorot_uniform, input_dim: null, input_length: null,
+      name: dilated_conv_256_sigm_s0, nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [dropout_9, 0, 0]
+    name: dilated_conv_256_sigm_s0
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: mul
+      mode_type: raw
+      name: gated_activation_8_s0
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [dilated_conv_256_tanh_s0, 0, 0]
+      - [dilated_conv_256_sigm_s0, 0, 0]
+    name: gated_activation_8_s0
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: false, border_mode: same, filter_length: 1,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_9,
+      nb_filter: 64, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [gated_activation_8_s0, 0, 0]
+    name: convolution1d_9
+  - class_name: Merge
+    config:
+      arguments: {}
+      concat_axis: -1
+      dot_axes: -1
+      mode: sum
+      mode_type: raw
+      name: merge_9
+      output_mask: null
+      output_mask_type: raw
+      output_shape: null
+      output_shape_type: raw
+    inbound_nodes:
+    - - [merge_8, 0, 0]
+      - [convolution1d_9, 0, 0]
+    name: merge_9
+  - class_name: PReLU
+    config: {init: zero, name: prelu_1, trainable: true}
+    inbound_nodes:
+    - - [merge_9, 0, 0]
+    name: prelu_1
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: true, border_mode: same, filter_length: 3,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_10,
+      nb_filter: 4, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [prelu_1, 0, 0]
+    name: convolution1d_10
+  - class_name: Dropout
+    config: {name: dropout_10, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_10, 0, 0]
+    name: dropout_10
+  - class_name: PReLU
+    config: {init: zero, name: prelu_2, trainable: true}
+    inbound_nodes:
+    - - [dropout_10, 0, 0]
+    name: prelu_2
+  - class_name: Convolution1D
+    config: {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+      b_constraint: null, b_regularizer: null, bias: true, border_mode: same, filter_length: 3,
+      init: glorot_uniform, input_dim: null, input_length: null, name: convolution1d_11,
+      nb_filter: 4, subsample_length: 1, trainable: true}
+    inbound_nodes:
+    - - [prelu_2, 0, 0]
+    name: convolution1d_11
+  - class_name: Dropout
+    config: {name: dropout_11, p: 0.2, trainable: true}
+    inbound_nodes:
+    - - [convolution1d_11, 0, 0]
+    name: dropout_11
+  - class_name: PReLU
+    config: {init: zero, name: prelu_3, trainable: true}
+    inbound_nodes:
+    - - [dropout_11, 0, 0]
+    name: prelu_3
+  - class_name: Flatten
+    config: {name: flatten_1, trainable: true}
+    inbound_nodes:
+    - - [prelu_3, 0, 0]
+    name: flatten_1
+  - class_name: Dense
+    config:
+      W_constraint: null
+      W_regularizer: null
+      activation: linear
+      activity_regularizer: null
+      b_constraint: null
+      b_regularizer: null
+      bias: true
+      init: glorot_uniform
+      input_dim: !!python/object/apply:numpy.core.multiarray.scalar
+      - !!python/object/apply:numpy.dtype
+        args: [i8, 0, 1]
+        state: !!python/tuple [3, <, null, null, null, -1, -1, 0]
+      - !!binary |
+        oA8AAAAAAAA=
+      name: fc1
+      output_dim: 919
+      trainable: true
+    inbound_nodes:
+    - - [flatten_1, 0, 0]
+    name: fc1
+  - class_name: Activation
+    config: {activation: sigmoid, name: output_sigmoid, trainable: true}
+    inbound_nodes:
+    - - [fc1, 0, 0]
+    name: output_sigmoid
+  name: model_1
+  output_layers:
+  - [output_sigmoid, 0, 0]
+keras_version: 1.2.2

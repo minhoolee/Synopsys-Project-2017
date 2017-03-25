@@ -1,0 +1,2202 @@
+{
+  "config": {
+    "layers": [
+      {
+        "config": {
+          "batch_input_shape": [
+            null,
+            1000,
+            4
+          ],
+          "sparse": false,
+          "input_dtype": "float32",
+          "name": "input_part"
+        },
+        "inbound_nodes": [],
+        "class_name": "InputLayer",
+        "name": "input_part"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": true,
+          "init": "glorot_uniform",
+          "W_regularizer": null,
+          "atrous_rate": 1,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "initial_causal_conv",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "input_part",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "initial_causal_conv"
+      },
+      {
+        "config": {
+          "p": 0.2,
+          "trainable": true,
+          "name": "dropout_1"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "initial_causal_conv",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dropout",
+        "name": "dropout_1"
+      },
+      {
+        "config": {
+          "activation": "tanh",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 1,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_1_tanh_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "initial_causal_conv",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_1_tanh_s0"
+      },
+      {
+        "config": {
+          "activation": "sigmoid",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 1,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_1_sigm_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dropout_1",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_1_sigm_s0"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "mul",
+          "name": "gated_activation_0_s0"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dilated_conv_1_tanh_s0",
+              0,
+              0
+            ],
+            [
+              "dilated_conv_1_sigm_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "gated_activation_0_s0"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_1",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_0_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_1"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "sum",
+          "name": "merge_1"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "initial_causal_conv",
+              0,
+              0
+            ],
+            [
+              "convolution1d_1",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "merge_1"
+      },
+      {
+        "config": {
+          "p": 0.2,
+          "trainable": true,
+          "name": "dropout_2"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_1",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dropout",
+        "name": "dropout_2"
+      },
+      {
+        "config": {
+          "activation": "tanh",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 2,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_2_tanh_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_1",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_2_tanh_s0"
+      },
+      {
+        "config": {
+          "activation": "sigmoid",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 2,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_2_sigm_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dropout_2",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_2_sigm_s0"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "mul",
+          "name": "gated_activation_1_s0"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dilated_conv_2_tanh_s0",
+              0,
+              0
+            ],
+            [
+              "dilated_conv_2_sigm_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "gated_activation_1_s0"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_3",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_1_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_3"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "sum",
+          "name": "merge_2"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_1",
+              0,
+              0
+            ],
+            [
+              "convolution1d_3",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "merge_2"
+      },
+      {
+        "config": {
+          "p": 0.2,
+          "trainable": true,
+          "name": "dropout_3"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_2",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dropout",
+        "name": "dropout_3"
+      },
+      {
+        "config": {
+          "activation": "tanh",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 4,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_4_tanh_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_2",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_4_tanh_s0"
+      },
+      {
+        "config": {
+          "activation": "sigmoid",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 4,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_4_sigm_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dropout_3",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_4_sigm_s0"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "mul",
+          "name": "gated_activation_2_s0"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dilated_conv_4_tanh_s0",
+              0,
+              0
+            ],
+            [
+              "dilated_conv_4_sigm_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "gated_activation_2_s0"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_5",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_2_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_5"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "sum",
+          "name": "merge_3"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_2",
+              0,
+              0
+            ],
+            [
+              "convolution1d_5",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "merge_3"
+      },
+      {
+        "config": {
+          "p": 0.2,
+          "trainable": true,
+          "name": "dropout_4"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_3",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dropout",
+        "name": "dropout_4"
+      },
+      {
+        "config": {
+          "activation": "tanh",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 8,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_8_tanh_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_3",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_8_tanh_s0"
+      },
+      {
+        "config": {
+          "activation": "sigmoid",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 8,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_8_sigm_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dropout_4",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_8_sigm_s0"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "mul",
+          "name": "gated_activation_3_s0"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dilated_conv_8_tanh_s0",
+              0,
+              0
+            ],
+            [
+              "dilated_conv_8_sigm_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "gated_activation_3_s0"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_7",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_3_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_7"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "sum",
+          "name": "merge_4"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_3",
+              0,
+              0
+            ],
+            [
+              "convolution1d_7",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "merge_4"
+      },
+      {
+        "config": {
+          "p": 0.2,
+          "trainable": true,
+          "name": "dropout_5"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_4",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dropout",
+        "name": "dropout_5"
+      },
+      {
+        "config": {
+          "activation": "tanh",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 16,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_16_tanh_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_4",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_16_tanh_s0"
+      },
+      {
+        "config": {
+          "activation": "sigmoid",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 16,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_16_sigm_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dropout_5",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_16_sigm_s0"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "mul",
+          "name": "gated_activation_4_s0"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dilated_conv_16_tanh_s0",
+              0,
+              0
+            ],
+            [
+              "dilated_conv_16_sigm_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "gated_activation_4_s0"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_9",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_4_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_9"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "sum",
+          "name": "merge_5"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_4",
+              0,
+              0
+            ],
+            [
+              "convolution1d_9",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "merge_5"
+      },
+      {
+        "config": {
+          "p": 0.2,
+          "trainable": true,
+          "name": "dropout_6"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_5",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dropout",
+        "name": "dropout_6"
+      },
+      {
+        "config": {
+          "activation": "tanh",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 32,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_32_tanh_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_5",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_32_tanh_s0"
+      },
+      {
+        "config": {
+          "activation": "sigmoid",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 32,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_32_sigm_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dropout_6",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_32_sigm_s0"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "mul",
+          "name": "gated_activation_5_s0"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dilated_conv_32_tanh_s0",
+              0,
+              0
+            ],
+            [
+              "dilated_conv_32_sigm_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "gated_activation_5_s0"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_11",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_5_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_11"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "sum",
+          "name": "merge_6"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_5",
+              0,
+              0
+            ],
+            [
+              "convolution1d_11",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "merge_6"
+      },
+      {
+        "config": {
+          "p": 0.2,
+          "trainable": true,
+          "name": "dropout_7"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_6",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dropout",
+        "name": "dropout_7"
+      },
+      {
+        "config": {
+          "activation": "tanh",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_64_tanh_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_6",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_64_tanh_s0"
+      },
+      {
+        "config": {
+          "activation": "sigmoid",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_64_sigm_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dropout_7",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_64_sigm_s0"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "mul",
+          "name": "gated_activation_6_s0"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dilated_conv_64_tanh_s0",
+              0,
+              0
+            ],
+            [
+              "dilated_conv_64_sigm_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "gated_activation_6_s0"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_13",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_6_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_13"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "sum",
+          "name": "merge_7"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_6",
+              0,
+              0
+            ],
+            [
+              "convolution1d_13",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "merge_7"
+      },
+      {
+        "config": {
+          "p": 0.2,
+          "trainable": true,
+          "name": "dropout_8"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_7",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dropout",
+        "name": "dropout_8"
+      },
+      {
+        "config": {
+          "activation": "tanh",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 128,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_128_tanh_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_7",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_128_tanh_s0"
+      },
+      {
+        "config": {
+          "activation": "sigmoid",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 128,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_128_sigm_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dropout_8",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_128_sigm_s0"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "mul",
+          "name": "gated_activation_7_s0"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dilated_conv_128_tanh_s0",
+              0,
+              0
+            ],
+            [
+              "dilated_conv_128_sigm_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "gated_activation_7_s0"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_15",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_7_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_15"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "sum",
+          "name": "merge_8"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_7",
+              0,
+              0
+            ],
+            [
+              "convolution1d_15",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "merge_8"
+      },
+      {
+        "config": {
+          "p": 0.2,
+          "trainable": true,
+          "name": "dropout_9"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_8",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dropout",
+        "name": "dropout_9"
+      },
+      {
+        "config": {
+          "activation": "tanh",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 256,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_256_tanh_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_8",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_256_tanh_s0"
+      },
+      {
+        "config": {
+          "activation": "sigmoid",
+          "b_regularizer": null,
+          "filter_length": 2,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "atrous_rate": 256,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "dilated_conv_256_sigm_s0",
+          "border_mode": "valid",
+          "nb_filter": 64,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dropout_9",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "CausalAtrousConvolution1D",
+        "name": "dilated_conv_256_sigm_s0"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "mul",
+          "name": "gated_activation_8_s0"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dilated_conv_256_tanh_s0",
+              0,
+              0
+            ],
+            [
+              "dilated_conv_256_sigm_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "gated_activation_8_s0"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_2",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_0_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_2"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_4",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_1_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_4"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_6",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_2_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_6"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_8",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_3_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_8"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_10",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_4_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_10"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_12",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_5_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_12"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_14",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_6_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_14"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_16",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_7_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_16"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 1,
+          "subsample_length": 1,
+          "bias": false,
+          "init": "glorot_uniform",
+          "nb_filter": 64,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_18",
+          "border_mode": "same",
+          "W_regularizer": {
+            "l2": 0.0,
+            "l1": 0.0,
+            "name": "L1L2Regularizer"
+          },
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gated_activation_8_s0",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_18"
+      },
+      {
+        "config": {
+          "output_mask": null,
+          "arguments": {},
+          "output_mask_type": "raw",
+          "concat_axis": -1,
+          "dot_axes": -1,
+          "output_shape_type": "raw",
+          "output_shape": null,
+          "mode_type": "raw",
+          "mode": "sum",
+          "name": "merge_10"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "convolution1d_2",
+              0,
+              0
+            ],
+            [
+              "convolution1d_4",
+              0,
+              0
+            ],
+            [
+              "convolution1d_6",
+              0,
+              0
+            ],
+            [
+              "convolution1d_8",
+              0,
+              0
+            ],
+            [
+              "convolution1d_10",
+              0,
+              0
+            ],
+            [
+              "convolution1d_12",
+              0,
+              0
+            ],
+            [
+              "convolution1d_14",
+              0,
+              0
+            ],
+            [
+              "convolution1d_16",
+              0,
+              0
+            ],
+            [
+              "convolution1d_18",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Merge",
+        "name": "merge_10"
+      },
+      {
+        "config": {
+          "activation": "relu",
+          "trainable": true,
+          "name": "activation_1"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "merge_10",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Activation",
+        "name": "activation_1"
+      },
+      {
+        "config": {
+          "activation": "linear",
+          "b_regularizer": null,
+          "filter_length": 3,
+          "subsample_length": 1,
+          "bias": true,
+          "init": "glorot_uniform",
+          "nb_filter": 128,
+          "trainable": true,
+          "W_constraint": null,
+          "name": "convolution1d_19",
+          "border_mode": "same",
+          "W_regularizer": null,
+          "activity_regularizer": null,
+          "input_dim": null,
+          "input_length": null,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "activation_1",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Convolution1D",
+        "name": "convolution1d_19"
+      },
+      {
+        "config": {
+          "activation": "relu",
+          "trainable": true,
+          "name": "activation_2"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "convolution1d_19",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Activation",
+        "name": "activation_2"
+      },
+      {
+        "config": {
+          "mode": 0,
+          "gamma_regularizer": null,
+          "axis": -1,
+          "epsilon": 0.001,
+          "momentum": 0.99,
+          "trainable": true,
+          "beta_regularizer": null,
+          "name": "batchnormalization_1"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "activation_2",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "BatchNormalization",
+        "name": "batchnormalization_1"
+      },
+      {
+        "config": {
+          "p": 0.5,
+          "trainable": true,
+          "name": "dropout_10"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "batchnormalization_1",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dropout",
+        "name": "dropout_10"
+      },
+      {
+        "config": {
+          "trainable": true,
+          "name": "flatten_1"
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dropout_10",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Flatten",
+        "name": "flatten_1"
+      },
+      {
+        "config": {
+          "activation": "sigmoid",
+          "b_regularizer": null,
+          "W_constraint": null,
+          "bias": true,
+          "init": "glorot_uniform",
+          "output_dim": 919,
+          "trainable": true,
+          "name": "fc1",
+          "W_regularizer": null,
+          "activity_regularizer": null,
+          "input_dim": 128000,
+          "b_constraint": null
+        },
+        "inbound_nodes": [
+          [
+            [
+              "flatten_1",
+              0,
+              0
+            ]
+          ]
+        ],
+        "class_name": "Dense",
+        "name": "fc1"
+      }
+    ],
+    "input_layers": [
+      [
+        "input_part",
+        0,
+        0
+      ]
+    ],
+    "output_layers": [
+      [
+        "fc1",
+        0,
+        0
+      ]
+    ],
+    "name": "model_1"
+  },
+  "class_name": "Model",
+  "keras_version": "1.2.2"
+}
