@@ -16,10 +16,9 @@ epigenetic regulators to be able understand the combinatorial effects of these
 epigenetic mechanisms.
 
 I conducted this independent research project for the Synopsys science fair as 
-a high school junior. In order to train my models, I built my own [custom 
-PC](https://pcpartpicker.com/user/minhoolee/saved/GZskLk). I would like to 
-thank my mentor, Renee Fallon, in providing me the textbooks to read about 
-genetics.
+a high school junior. In order to train my models, I built my own custom PC [(see
+specs here)](https://pcpartpicker.com/user/minhoolee/saved/GZskLk). I would like to 
+thank my mentor, Renee Fallon, in providing me biology textbooks and general advice.
 
 ### Custom Built PC 
 <img src="https://cloud.githubusercontent.com/assets/10465228/24325200/e7be4be6-1150-11e7-82ef-5f7c4ba73ca3.JPG"/>
@@ -55,7 +54,7 @@ Run `make train MODEL_FUNC='<method from step 2>' MODEL_NAME='<some unique ident
 ### Step 4. Test model and generate predictions
 Run `make test MODEL_FUNC='<same as from step 3>' MODEL_NAME='<same as from step 3>'`
 
-### Step 5. Generating performance (ROC/PR, stdenv, etc.) scores and visualizations
+### Step 5. Generating performance (ROC/PR, stdev, etc.) scores and visualizations
 See notebooks/ and run the code after "Execute the following" headers. Make 
 sure to run them with the Theano backend for Keras because the models were all 
 trained on Theano.
