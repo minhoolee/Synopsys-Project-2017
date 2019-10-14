@@ -2,6 +2,12 @@ Synopsys Project 2016-2017
 ==============================
 ### Leveraging Deep Learning to Derive _De Novo_ Epigenetic Mechanisms from _PPARGC1A_ to Account for Missing Heritability in Type II Diabetes Mellitus
 
+### Data / Statistical Analysis Jupyter Notebooks
+Until Github fixes notebook renderings, please visit the following links (same as notebooks/)
+https://nbviewer.jupyter.org/github/minhoolee/Synopsys-Project-2017/blob/master/notebooks/0.1-mhl-data-analysis.ipynb  
+https://nbviewer.jupyter.org/github/minhoolee/Synopsys-Project-2017/blob/master/notebooks/0.1-mhl-model-predictions.ipynb  
+https://nbviewer.jupyter.org/github/minhoolee/Synopsys-Project-2017/blob/master/notebooks/0.2-mhl-model-predictions.ipynb  
+
 ### Synopsys Competition Tri-Fold
 <img src="https://cloud.githubusercontent.com/assets/10465228/24325410/a0631506-1155-11e7-8f5e-756332d353d1.jpg"/>
 
