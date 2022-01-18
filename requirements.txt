@@ -3,7 +3,7 @@ python_dotenv==0.6.2
 h5py==2.6.0
 Keras==1.2.2
 matplotlib==2.0.0
-numpy==1.12.1
+numpy==1.21.0
 picklable_itertools==0.1.1
 sacred==0.6.10
 scipy==0.19.0
