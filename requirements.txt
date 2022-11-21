@@ -13,4 +13,4 @@ tensorflow_gpu==2.5.3
 tqdm==4.8.4
 dotenv==0.0.5
 scikit_learn==0.18.1
-tensorflow==2.5.3
+tensorflow==2.9.3
